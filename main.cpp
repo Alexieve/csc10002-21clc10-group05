@@ -1,74 +1,5 @@
-#include <iostream>
-#include <fstream>
-using namespace std;
+#include "functionPrototype.h"
 
-struct User{
-    string username, password, accountType;
-    string userID, id, socialId;
-    string firstName, lastName, gender, dob, _class, title;
-
-    void showProfile(){
-        cout << "User ID: " << id << endl;
-        cout << "Social ID: " << socialId << endl;
-        cout << "Name: " << lastName << " " << firstName << endl;
-        cout << "Gender: " << gender << endl;
-        cout << "Gender: " << dob << endl;
-        if (accountType == "1") cout << "Class: " << _class << endl;
-    }
-    void changePassword(){
-        string confirmPassword = "";
-        while (password != confirmPassword){
-            cout << "Enter old password: ";
-            cin >> confirmPassword;
-        }
-        cout << "Enter new password: ";
-        cin >> password;
-    }
-};
-struct Account{
-    User data;
-    Account *next, *prev;
-};
-Account* getAccount(User newData){
-    Account* newNode = new Account;
-    newNode->data = newData;
-    newNode->next = newNode->prev = NULL;
-    return newNode;
-}
-void pushBack(Account* &head, User newData){
-    Account* newAccount = getAccount(newData);
-    if (head == NULL){
-        head = newAccount;
-        return;
-    }
-
-    Account* cur = head;
-    while (cur->next != NULL)
-        cur = cur->next;
-    newAccount->prev = cur;
-    cur->next = newAccount;
-}
-void loadAccount(Account* &head){
-    fstream fs;
-    fs.open("userData.csv", ios::in);
-    while (!fs.eof()){
-        User data;
-        getline(fs, data.username, ',');
-        getline(fs, data.password, ',');
-        getline(fs, data.accountType, ',');
-        getline(fs, data.userID, ',');
-        getline(fs, data.id, ',');
-        getline(fs, data.socialId, ',');
-        getline(fs, data.firstName, ',');
-        getline(fs, data.lastName, ',');
-        getline(fs, data.gender, ',');
-        getline(fs, data.dob, ',');
-        getline(fs, data._class, ',');
-        getline(fs, data.title);
-        pushBack(head, data);
-    }
-    fs.close();
-}
 void manageAccount(User &account){
     cout << "1. Profile\n";
     cout << "2. Change password\n";
@@ -79,33 +10,37 @@ void manageAccount(User &account){
     if (input == "1") account.showProfile();
     else if (input == "2") account.changePassword();
 }
-bool checkLogin(Account* curAccount, string username0, string password0){
-    if (curAccount->data.username == username0
-        && curAccount->data.password == password0)
-        return true;
-    return false;
-}
-bool login(Account* head, Account* &curAccount){
-    string username0, password0;
-    cout << "Login!\n";
-    cout << "Username: ";
-    cin >> username0;
-    cout << "Password: ";
-    cin >> password0;
-
-    Account* cur = head;
-    while (cur && !checkLogin(cur, username0, password0))
-        cur = cur->next;
-    if (cur == NULL) return false;
-    curAccount = cur;
-    return true;
-}
 bool start(Account* headAccount){
     bool check = true;
     Account* curAccount = new Account;
     while (!login(headAccount, curAccount));
     manageAccount(curAccount->data);
+    updateAccountData(headAccount);
     return check;
+}
+void updateAccountData(Account* headAccount){
+    fstream fs;
+    fs.open("userData.csv", ios::out);
+    Account* cur = headAccount;
+    bool check = false;
+    while (cur){
+        if (check) fs << '\n';
+        else check = true;
+        fs << cur->data.username << ',';
+        fs << cur->data.password << ',';
+        fs << cur->data.accountType << ',';
+        fs << cur->data.userID << ',';
+        fs << cur->data.id << ',';
+        fs << cur->data.socialId << ',';
+        fs << cur->data.firstName << ',';
+        fs << cur->data.lastName << ',';
+        fs << cur->data.gender << ',';
+        fs << cur->data.dob << ',';
+        fs << cur->data._class << ',';
+        fs << cur->data.title;
+        cur = cur->next;
+    }
+    fs.close();
 }
 int main(){
     Account* headAccount = NULL;
