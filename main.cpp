@@ -11,11 +11,13 @@ void manageAccount(User &account){
     else if (input == "2") account.changePassword();
 }
 bool start(Account* headAccount){
+    // if check = false then stop the program
+    // check is a temporary var to stop program
     bool check = true;
     Account* curAccount = new Account;
-    while (!login(headAccount, curAccount));
+    while (!login(headAccount, curAccount)); // login into program and get account data
     manageAccount(curAccount->data);
-    updateAccountData(headAccount);
+    updateAccountData(headAccount); // update account data after run program
     return check;
 }
 void updateAccountData(Account* headAccount){
