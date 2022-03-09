@@ -1,23 +1,54 @@
 #include "functionPrototype.h"
 
 void manageAccount(User &account){
+    system("CLS");
     cout << "1. Profile\n";
     cout << "2. Change password\n";
-    cout << "3. Log out\n";
     string input = "";
     cin >> input;
-    if (input == "3") return;
     if (input == "1") account.showProfile();
     else if (input == "2") account.changePassword();
 }
-bool start(Account* headAccount){
+void studentProcess(Account* &curAccount){
+
+}
+void showClass(Class* headClass){
+    Class* curClass = headClass;
+    while (curClass){
+        cout << curClass->className << endl;
+        User* curStudent = curClass->student;
+        while (curStudent){
+            cout << curStudent->firstName << " ";
+            curStudent = curStudent->next;
+        }
+        curClass = curClass->next;
+        cout << endl;
+    }
+    getch();
+}
+bool start(Account* &headAccount, Class* &headClass, schoolYear*& headSchoolYear){
     // if check = false then stop the program
     // check is a temporary var to stop program
     bool check = true;
-    Account* curAccount = new Account;
+    Account* curAccount;
     while (!login(headAccount, curAccount)); // login into program and get account data
-    manageAccount(curAccount->data);
-    updateAccountData(headAccount); // update account data after run program
+
+    while (true){
+        system("CLS");
+        cout << "1. Manage account\n";
+        cout << "2. Main page\n";
+        cout << "3. Log out\n";
+        string input = "";
+        cin >> input;
+        if (input == "1") manageAccount(curAccount->data);
+        else if (input == "2"){
+            if (curAccount->data.accountType == "1") staffProcess(curAccount, headClass, headSchoolYear);
+            else studentProcess(curAccount);
+        }
+        else if (input == "3") return true;
+        updateAccountData(headAccount); // update account data after run program
+        showClass(headClass);
+    }
     return check;
 }
 void updateAccountData(Account* headAccount){
@@ -46,7 +77,9 @@ void updateAccountData(Account* headAccount){
 }
 int main(){
     Account* headAccount = NULL;
+    Class* headClass = NULL;
+    schoolYear* headSchoolYear = NULL;
     loadAccount(headAccount);
-    while (start(headAccount));
+    while (start(headAccount, headClass, headSchoolYear));
     return 0;
 }
