@@ -7,6 +7,7 @@ bool checkLogin(Account* curAccount, string username0, string password0){
     return false;
 }
 bool login(Account* head, Account* &curAccount){
+    system("CLS");
     string username0, password0;
     cout << "Login!\n";
     cout << "Username: ";
@@ -18,6 +19,6 @@ bool login(Account* head, Account* &curAccount){
     while (cur && !checkLogin(cur, username0, password0))
         cur = cur->next;
     if (cur == NULL) return false;
-    curAccount = cur;
+    curAccount = cur; // get login account data
     return true;
 }
