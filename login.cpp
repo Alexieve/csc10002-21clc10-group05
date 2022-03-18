@@ -22,3 +22,4 @@ bool login(Account* head, Account* &curAccount){
     curAccount = cur; // get login account data
     return true;
 }
+

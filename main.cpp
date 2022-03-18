@@ -79,7 +79,9 @@ int main(){
     Account* headAccount = NULL;
     Class* headClass = NULL;
     schoolYear* headSchoolYear = NULL;
+    Semester* headSemester = NULL;
     loadAccount(headAccount);
     while (start(headAccount, headClass, headSchoolYear));
     return 0;
 }
+

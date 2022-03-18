@@ -47,6 +47,34 @@ struct Account{
     User data;
     Account *next, *prev;
 };
+
+struct Session {
+    string day, time;
+};
+
+struct dataCourse {
+    string startDate, endDate;
+    string id, course_name, teacher_name, credits, max_students = "50", days;
+    Session session1, session2;
+};
+
+struct Course {
+    dataCourse data;
+    Course *next, *prev;
+};
+
+struct dataSemester {
+    string num;
+    string startYear, endYear;
+    string startDate, endDate;
+    Course *headCourse;
+};
+
+struct Semester {
+    dataSemester data;
+    Semester *next, *prev;
+};
+
 Account* getAccount(User newData);
 void pushBackAccount(Account* &head, User newData);
 void loadAccount(Account* &head);
@@ -67,3 +95,4 @@ void add1stStudents(Account* headAccount, Class* &headClass);
 void studentProcess(Account* &curAccount);
 void showClass(Class* headClass);
 #endif  _FUNCTIONPROTOTYPE_H_
+
