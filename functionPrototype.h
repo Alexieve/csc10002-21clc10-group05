@@ -49,29 +49,21 @@ struct Account{
 };
 
 struct Session {
-    string day, time;
-};
-
-struct dataCourse {
     string startDate, endDate;
-    string id, course_name, teacher_name, credits, max_students = "50", days;
-    Session session1, session2;
+    Session *next, *prev;
 };
 
 struct Course {
-    dataCourse data;
+    string startDate, endDate;
+    string id, courseName, teacherName, credits, max = "50", days;
+    Session session1, session2;
+    Semester semester;
     Course *next, *prev;
 };
 
-struct dataSemester {
-    string num;
-    string startYear, endYear;
-    string startDate, endDate;
-    Course *headCourse;
-};
-
 struct Semester {
-    dataSemester data;
+    string name; // 1, 2, 3
+    schoolYear SchoolYear;
     Semester *next, *prev;
 };
 

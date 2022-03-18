@@ -138,6 +138,8 @@ void create_Course(Course* &headCourse) {
     cin >> dataC.session2.day;
     cout << "Enter session 2 time [S1(07:30)/ S2(09:30)/ S3(13:30)/ S4(15:30)]: ";
     cin >> dataC.session2.time;
+    
+    push_course(headCourse, dataC);
 }
 
 void create_Semester(Semester* &headSemester) {
@@ -153,9 +155,50 @@ void create_Semester(Semester* &headSemester) {
     cin >> dataS.startDate;
     cout << "Enter end date : ";
     cin >> dataS.endDate;
-    create_Course(dataS.headCourse);
 
-    headSemester -> data = dataS;
+    push_Semester(headSemester, dataS);
+}
+Session* getSession(Session newData){
+	Session* newNode = new Session;
+	newNode->day = newData.day;
+	newNode->time = newData.time;
+	newNode->next = newNode->prev = NULL;
+	return newNode;
+}
+void pushBackSession(Session* &head, Session newData){
+	Session* newSession = getSession(newData);
+	if(head == NULL)
+		head = newSession;
+		return;
+	Session* cur = head;
+	while(cur->next != NULL)
+		cur = cur->next;
+	newSession->prev = cur;
+	cur->next = newSession;
+}
+void createSession(Session* &headSession){
+	system("CLS");
+	Session session;
+    cout << "Enter the start date of the session: ";
+    cin >> session.startDate;
+    cout << "Enter the end date of the session: ";
+    cin >> session.endDate;
+    pushBackSession(headSession, session);
+}
+
+void addCourse(Semester* headSemester, Course* &headCourse){
+	Semester* curSemester = headSemester;
+    while (curSemester->prev != NULL)
+        curSemester = curSemester->prev;
+
+    while (curSemester){
+        Course* curCourse = headCourse;
+        while (curCourse && curCourse->classCourse != curSemester->data.courseName)
+            curCourse = curCourse->next;
+        pushBackSession(headSession, session);
+        }
+        curSemester = curSemester->next;
+    }
 }
 
 void view_courselist(Course* headCourse) {
@@ -170,6 +213,43 @@ void view_courselist(Course* headCourse) {
         tmp = tmp -> next;
     }
 }
+void updateCourseInfo(Course* &headCourse){
+	system("CLS");
+    dataCourse dataC;
+    Course* cur = headCourse;
+    while(cur){
+	}
+    string ID;
+    cout << "Enter course id need to update: ";
+    cin >> ID;
+    if(ID == dataC.id){
+    	cout << "Enter course name : ";
+	    cin.ignore();
+	    getline(cin, dataC.course_name);
+	    cout << "Enter number of credits : ";
+	    cin >> dataC.credits;
+	    cout << "Enter the maximum number of students in the course (default 50) :";
+	    cin >> dataC.max_students;
+	    cout << "Enter session 1 day (MON/ TUE/ WED/ THU/ FRI/ SAT): ";
+	    cin >> dataC.session1.day;
+	    cout << "Enter session 1 time [S1(07:30)/ S2(09:30)/ S3(13:30)/ S4(15:30)]: ";
+	    cin >> dataC.session1.time;
+	    cout << "Enter session 2 day (MON/ TUE/ WED/ THU/ FRI/ SAT): ";
+	    cin >> dataC.session2.day;
+	    cout << "Enter session 2 time [S1(07:30)/ S2(09:30)/ S3(13:30)/ S4(15:30)]: ";
+	    cin >> dataC.session2.time;
+	}
+	else {
+		cout << "Invalid id, cannot found!!!";
+	}
+    
+    
+    push_course(headCourse, dataC);
+}
+
+void deleteCourse(Course* &headCourse, string ){
+	
+}
 
 void staffProcess(Account* &curAccount, Class* &headClass, schoolYear* &headSchoolYear){
     system("CLS");
@@ -177,10 +257,13 @@ void staffProcess(Account* &curAccount, Class* &headClass, schoolYear* &headScho
     cout << "2. Create new class\n";
     cout << "3. Add new 1st year students to 1st-year classes\n";
     cout << "4. Create a new semester\n";
+    cout << "5. Update course infomation\n";
     string input = "";
     cin >> input;
     if (input == "1") creatSchoolYear(headSchoolYear);
     else if (input == "2") createClass(headClass);
     else if (input == "3") add1stStudents(curAccount, headClass);
+    else if (input == "4") create_Semester(headSemester);
+    else if (input == "5") updateCourseInfo(headSemester);
 }
 
