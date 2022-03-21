@@ -1,20 +1,20 @@
 #include "functionPrototype.h"
 
-Account* getAccount(User newData){
+Account* getAccount(dataAccount newData){
     Account* newNode = new Account;
     newNode->data = newData;
     newNode->next = newNode->prev = NULL;
     return newNode;
 }
-void pushBackAccount(Account* &head, User newData){
+void pushBackAccount(Account* &head, dataAccount newData){
     Account* newAccount = getAccount(newData);
-    if (head == NULL){
+    if (!head){
         head = newAccount;
         return;
     }
 
     Account* cur = head;
-    while (cur->next != NULL)
+    while (cur->next)
         cur = cur->next;
     newAccount->prev = cur;
     cur->next = newAccount;
@@ -23,7 +23,7 @@ void loadAccount(Account* &head){
     fstream fs;
     fs.open("userData.csv", ios::in);
     while (!fs.eof()){
-        User data;
+        dataAccount data;
         getline(fs, data.username, ',');
         getline(fs, data.password, ',');
         getline(fs, data.accountType, ',');

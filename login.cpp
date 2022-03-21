@@ -18,8 +18,14 @@ bool login(Account* head, Account* &curAccount){
     Account* cur = head;
     while (cur && !checkLogin(cur, username0, password0))
         cur = cur->next;
-    if (cur == NULL) return false;
+    if (!cur){
+        cout << "Wrong username or password!";
+        getch();
+        return false;
+    }
     curAccount = cur; // get login account data
+    cout << "Complete!";
+    getch();
     return true;
 }
 
