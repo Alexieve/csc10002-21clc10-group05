@@ -1,42 +1,42 @@
 2021,2022
-1,2021,2021,21/10/01,21/12/31,1
-BAA00005,Economics,2,40
+1,2021/10/01,2021/12/31,2021/09/23,2021/09/30,1
+BAA00005,Economics,PTLy,2,40
 TUE,S3,TUE,S4,1
-CSC00004,Introduction to Information Technology,4,40
+CSC00004,Introduction to Information Technology,DTTHa,4,40
 FRI,S1,MON,S4,1
-CSC10001,Introduction to Programing,4,50
+CSC10001,Introduction to Programing,VQHoang,4,50
 WED,S1,THU,S2,1
-CSC10121,Soft skills,3,40
+CSC10121,Soft skills,LVMinh,3,40
 THU,S4,WED,S3,1
-MTH00009,TRR,4,40
+MTH00009,TRR,LVHop,4,40
 SAT,S3,TUE,S2,0
-2,2022,2022,22/01/01,22/03/31,0
-BAA00101,Triet hoc Mac-Lenin,3,40
+2,2022/01/01,2022/03/31,2021/12/24,2022/04/30,0
+BAA00101,Triet hoc Mac-Lenin,NTPhuong,3,40
 THU,S1,THU,S2,1
-CSC10002,Introduction to Programing Technic,4,40
+CSC10002,Introduction to Programing Technic,DBTien,4,40
 WED,S1,SAT,S1,1
-MTH00005,Math 1B,4,50
+MTH00005,Math 1B,NTTVan,4,50
 FRI,S1,MON,S3,1
-PHY00005,Physics 1,4,40
+PHY00005,Physics 1,VTHThu,4,40
 MON,S1,WED,S3,0
 2020,2021
-1,2020,2020,20/10/01,20/12/31,1
-BAA00005,Economics,2,40
+1,2020/10/01,2020/12/31,2020/09/23,2020/09/30,1
+BAA00005,Economics,PTLy,2,40
 TUE,S3,TUE,S4,1
-CSC00004,Introduction to Information Technology,4,40
+CSC00004,Introduction to Information Technology,DTTHa,4,40
 FRI,S1,MON,S4,1
-CSC10001,Introduction to Programing,4,50
+CSC10001,Introduction to Programing,VQHoang,4,50
 WED,S1,THU,S2,1
-CSC10121,Soft skills,3,40
+CSC10121,Soft skills,LVMinh,3,40
 THU,S4,WED,S3,1
-MTH00009,TRR,4,40
+MTH00009,TRR,LVHop,4,40
 SAT,S3,TUE,S2,0
-2,2021,2021,21/01/01,21/03/31,0
-BAA00101,Triet hoc Mac-Lenin,3,40
+2,2021/01/01,2021/03/31,2020/12/24,2020/12/31,0
+BAA00101,Triet hoc Mac-Lenin,NTPhuong,3,40
 THU,S1,THU,S2,1
-CSC10002,Introduction to Programing Technic,4,40
+CSC10002,Introduction to Programing Technic,DBTien,4,40
 WED,S1,SAT,S1,1
-MTH00005,Math 1B,4,50
+MTH00005,Math 1B,NTTVan,4,50
 FRI,S1,MON,S3,1
-PHY00005,Physics 1,4,40
+PHY00005,Physics 1,VTHThu,4,40
 MON,S1,WED,S3,0

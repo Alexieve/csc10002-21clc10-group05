@@ -14,7 +14,7 @@ bool start(Account* &headAccount, Class* &headClass, schoolYear*& headSchoolYear
         if (input == "1") manageAccount(curAccount->data);
         else if (input == "2"){
             if (curAccount->data.accountType == "1") staffProcess(curAccount, headAccount, headClass, headSchoolYear);
-            else studentProcess(curAccount);
+            else studentProcess(curAccount, headAccount, headClass, headSchoolYear);
         }
         else if (input == "3") return true;
         else if (input == "0") return false;

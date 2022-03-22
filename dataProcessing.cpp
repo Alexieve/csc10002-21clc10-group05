@@ -125,3 +125,39 @@ void push_Semester(Semester* &headSemester, dataSemester dataS){
     newSemester->prev = curSemester;
     curSemester->next = newSemester;
 }
+bool compareDate(string year1, string month1, string day1, string year2, string month2, string day2){
+    if (year1 > year2) return false;
+    else if (year1 < year2) return true;
+    else{
+        if (month1 > month2) return false;
+        else if (month1 < month2) return true;
+        else{
+            if (day1 > day2) return false;
+            else return true;
+        }
+    }
+}
+bool checkEnrollTime(Semester* curSemester){
+    string startReg = curSemester->data.startReg;
+    string endReg = curSemester->data.endReg;
+
+    string yearStart = startReg.substr(0,4);
+    string monthStart = startReg.substr(5,2);
+    string dayStart = startReg.substr(8,2);
+    string yearEnd = endReg.substr(0,4);
+    string monthEnd = endReg.substr(5,2);
+    string dayEnd = endReg.substr(8,2);
+
+    time_t now = time(NULL);
+    tm *const Date = localtime(&now);
+    string yearNow = to_string(1900 + Date->tm_year);
+    string monthNow = to_string(1 + Date->tm_mon);
+    string dayNow = to_string(Date->tm_mday);
+    if (monthNow.length() == 1) monthNow = "0" + monthNow;
+    if (dayNow.length() == 1) dayNow = "0" + dayNow;
+
+    bool check1 = compareDate(yearStart, monthStart, dayStart, yearNow, monthNow, dayNow);
+    bool check2 = compareDate(yearNow, monthNow, dayNow, yearEnd, monthEnd, dayEnd);
+    if (check1 && check2) return true;
+    return false;
+}

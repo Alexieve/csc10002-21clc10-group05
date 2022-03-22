@@ -56,10 +56,10 @@ void loadSeverData(schoolYear* &headSchoolYear){
         while (checkS == "1"){ /// There are still some semesters
             dataSemester dataS;
             getline(fs, dataS.num, ',');
-            getline(fs, dataS.startYear, ',');
-            getline(fs, dataS.endYear, ',');
             getline(fs, dataS.startDate, ',');
             getline(fs, dataS.endDate, ',');
+            getline(fs, dataS.startReg, ',');
+            getline(fs, dataS.endReg, ',');
             getline(fs, checkS);
             push_Semester(curSY->data.headSemester, dataS);
 
@@ -70,6 +70,7 @@ void loadSeverData(schoolYear* &headSchoolYear){
                 dataCourse dataC;
                 getline(fs, dataC.id, ',');
                 getline(fs, dataC.course_name, ',');
+                getline(fs, dataC.teacher_name, ',');
                 getline(fs, dataC.credits, ',');
                 getline(fs, dataC.max_students);
 
@@ -99,10 +100,10 @@ void updateSeverData(schoolYear* &headSchoolYear){
         Semester* curS = curSY->data.headSemester;
         while (curS){
             fs << curS->data.num << ',';
-            fs << curS->data.startYear << ',';
-            fs << curS->data.endYear << ',';
             fs << curS->data.startDate << ',';
             fs << curS->data.endDate << ',';
+            fs << curS->data.startReg << ',';
+            fs << curS->data.endReg << ',';
             if (curS->next) fs << 1 << '\n';
             else fs << 0 << '\n';
 
@@ -110,6 +111,7 @@ void updateSeverData(schoolYear* &headSchoolYear){
             while (curC){
                 fs << curC->data.id << ',';
                 fs << curC->data.course_name << ',';
+                fs << curC->data.teacher_name << ',';
                 fs << curC->data.credits << ',';
                 fs << curC->data.max_students << '\n';
 

@@ -5,6 +5,8 @@
 #include <fstream>
 #include <stdlib.h>
 #include <conio.h>
+#include <cstring>
+#include <ctime>
 using namespace std;
 
 struct dataAccount{
@@ -41,8 +43,8 @@ struct Course {
 };
 struct dataSemester {
     string num;
-    string startYear, endYear;
     string startDate, endDate;
+    string startReg, endReg;
     Course *headCourse = NULL;
 };
 struct Semester {
@@ -75,7 +77,7 @@ void pushBackClass(Class* &head, string newData);
 void createClass(Class* &headClass);
 void pushBackStudent(Account* &curStudent, Account* &headStudent);
 void add1stStudents(Account* headAccount, Class* &headClass);
-void studentProcess(Account* &curAccount);
+void studentProcess(Account* &curAccount, Account* &headAccount, Class* &headClass, schoolYear* &headSchoolYear);
 void showClass(Class* headClass);
 void push_course(Course* &headCourse, dataCourse dataC);
 void create_Course(Course* &headCourse);
@@ -91,5 +93,8 @@ void loadClass(Class* &headClass, Account* headAccount);
 void viewCourseInfor(dataCourse &dataC);
 void deleteCourse(Course* &curCourse);
 void changeCourseInfor(dataCourse &dataC, int x);
+bool compareDate(string year1, string month1, string day1, string year2, string month2, string day2);
+bool checkEnrollTime(Semester* curSemester);
+void enrollCourse(Account* &curAccount, schoolYear* &headSchoolYear);
 #endif  _FUNCTIONPROTOTYPE_H_
 

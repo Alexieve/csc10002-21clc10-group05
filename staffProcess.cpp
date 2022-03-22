@@ -88,9 +88,9 @@ void create_Course(Course* &headCourse){
     cout << "Enter course name : ";
     cin.ignore();
     getline(cin, dataC.course_name);
-//    cout << "Enter teacher name : ";
-//    cin.ignore();
-//    getline(cin, dataC.teacher_name);
+    cout << "Enter teacher name : ";
+    cin.ignore();
+    getline(cin, dataC.teacher_name);
     cout << "Enter number of credits : ";
     cin >> dataC.credits;
     cout << "Enter the maximum number of students in the course (default 50) :";
@@ -114,14 +114,14 @@ void create_Semester(Semester* &headSemester){
     dataS.headCourse = NULL;
     cout << "Enter the semester you want to create (1, 2, 3) : ";
     cin >> dataS.num;
-    cout << "Enter the start year : ";
-    cin >> dataS.startYear;
-    cout << "Enter the end year : ";
-    cin >> dataS.endYear;
-    cout << "Enter start date : ";
+    cout << "Enter start date (YYYY/MM/DD) : ";
     cin >> dataS.startDate;
-    cout << "Enter end date : ";
+    cout << "Enter end date (YYYY/MM/DD) : ";
     cin >> dataS.endDate;
+    cout << "Enter start registration date (YYYY/MM/DD) : ";
+    cin >> dataS.startReg;
+    cout << "Enter end registration date (YYYY/MM/DD) : ";
+    cin >> dataS.endReg;
     create_Course(dataS.headCourse);
     push_Semester(headSemester, dataS);
 }
@@ -156,20 +156,25 @@ void changeCourseInfor(dataCourse &dataC, int x){
         getline(cin, dataC.course_name);
     }
     else if (x == 3){
+        cout << "Enter teacher name : ";
+        cin.ignore();
+        getline(cin, dataC.teacher_name);
+    }
+    else if (x == 4){
         cout << "Enter number of credits : ";
         cin >> dataC.credits;
     }
-    else if (x == 4){
+    else if (x == 5){
         cout << "Enter the maximum number of students in the course (default 50) :";
         cin >> dataC.max_students;
     }
-    else if (x == 5){
+    else if (x == 6){
         cout << "Enter session 1's day (MON/ TUE/ WED/ THU/ FRI/ SAT): ";
         cin >> dataC.session1.day;
         cout << "Enter session 1's time [S1(07:30)/ S2(09:30)/ S3(13:30)/ S4(15:30)]: ";
         cin >> dataC.session1.time;
     }
-    else if (x == 6){
+    else if (x == 7){
         cout << "Enter session 2's day (MON/ TUE/ WED/ THU/ FRI/ SAT): ";
         cin >> dataC.session2.day;
         cout << "Enter session 2's time [S1(07:30)/ S2(09:30)/ S3(13:30)/ S4(15:30)]: ";
@@ -184,12 +189,13 @@ void viewCourseInfor(Course* &curCourse, Course* &headCourse){
     dataCourse dataC = curCourse->data;
     cout << "1. ID: " << dataC.id << endl;
     cout << "2. Name: " << dataC.course_name << endl;
-    cout << "3. Credits: " << dataC.credits << endl;
-    cout << "4. Max Students: " << dataC.max_students << endl;
+    cout << "3. Name: " << dataC.teacher_name << endl;
+    cout << "4. Credits: " << dataC.credits << endl;
+    cout << "5. Max Students: " << dataC.max_students << endl;
 
     string sesTime[4] = {"7h30", "9h30", "13h30", "15h30"};
-    cout << "5. Session 1: " << dataC.session1.day <<" - " << sesTime[int(char(dataC.session1.time[1]))-49] << endl;
-    cout << "6. Session 2: " << dataC.session2.day <<" - " << sesTime[int(char(dataC.session2.time[1]))-49] << endl;
+    cout << "6. Session 1: " << dataC.session1.day <<" - " << sesTime[int(char(dataC.session1.time[1]))-49] << endl;
+    cout << "7. Session 2: " << dataC.session2.day <<" - " << sesTime[int(char(dataC.session2.time[1]))-49] << endl;
     cout << "0. Back!\n";
     cout << "---> DELETE THIS COURSE!!! (Press x)\n";
     cout << "(Select the information you want to change by enter number)\n";
