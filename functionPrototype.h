@@ -9,7 +9,7 @@ using namespace std;
 
 struct dataAccount{
     string username, password, accountType;
-    string userID, id, socialId;
+    string userID, studentID, socialId;
     string firstName, lastName, gender, dob, _class, title;
     /// Functions ///
     void showProfile();
@@ -83,10 +83,13 @@ void push_Semester(Semester* &headSemester, dataSemester dataS);
 void create_Semester(Semester* &headSemester);
 schoolYear* chooseSchoolYear(schoolYear *headSchoolYear);
 Semester* chooseSemester(Semester *headSemester);
-void viewCourseList(Course* headCourse);
+void viewCourseList(Course* &headCourse);
 schoolYear* chooseSchoolYearToAddSemester(schoolYear *headSchoolYear);
 void loadSeverData(schoolYear* &headSchoolYear);
 void updateSeverData(schoolYear* &headSchoolYear);
 void loadClass(Class* &headClass, Account* headAccount);
+void viewCourseInfor(dataCourse &dataC);
+void deleteCourse(Course* &curCourse);
+void changeCourseInfor(dataCourse &dataC, int x);
 #endif  _FUNCTIONPROTOTYPE_H_
 

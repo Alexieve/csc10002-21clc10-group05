@@ -26,7 +26,7 @@ int main(){
     Class* headClass = NULL;
     schoolYear* headSchoolYear = NULL;
     loadAccount(headAccount);
-//    loadClass(headClass, headAccount);
+    loadClass(headClass, headAccount);
     loadSeverData(headSchoolYear);
     while (start(headAccount, headClass, headSchoolYear));
     return 0;

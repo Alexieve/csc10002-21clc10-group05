@@ -1,29 +1,45 @@
 #include "functionPrototype.h"
 
-void loadClass(Class* &headClass, Account* headAccount){
+void loadAccount(Account* &head){
     fstream fs;
-    fs.open("classData.csv", ios::in);
+    fs.open("userData.csv", ios::in);
     while (!fs.eof()){
-        string className;
-        getline(fs, className);
-        pushBackClass(headClass, className);
-
-        Class* curClass = headClass;
-        while (curClass->next) curClass = curClass->next;
-        string userID = "1";
-        while (userID != "x"){
-            getline(fs, userID, ',');
-            Account* curAccount = headAccount;
-            while (curAccount){
-                if (curAccount->data.userID == userID){
-                    Account* newStudent = getAccount(curAccount->data);
-                    pushBackStudent(newStudent, curClass->data.student);
-                }
-                curAccount = curAccount->next;
-            }
-        }
+        dataAccount data;
+        getline(fs, data.username, ',');
+        getline(fs, data.password, ',');
+        getline(fs, data.accountType, ',');
+        getline(fs, data.userID, ',');
+        getline(fs, data.studentID, ',');
+        getline(fs, data.socialId, ',');
+        getline(fs, data.firstName, ',');
+        getline(fs, data.lastName, ',');
+        getline(fs, data.gender, ',');
+        getline(fs, data.dob, ',');
+        getline(fs, data._class, ',');
+        getline(fs, data.title);
+        pushBackAccount(head, data);
     }
     fs.close();
+}
+void loadClass(Class* &headClass, Account* headAccount){
+    Account *curAccount = headAccount;
+    while (curAccount){
+        if (curAccount->data._class == "NULL"){
+            curAccount = curAccount->next;
+            continue;
+        }
+        pushBackClass(headClass, curAccount->data._class);
+        Account *newStudent = getAccount(curAccount->data);
+        Class *curClass = headClass;
+        while (curClass){
+            if (curClass->data.className == curAccount->data._class){
+                pushBackStudent(newStudent, curClass->data.student);
+                break;
+            }
+            curClass = curClass->next;
+        }
+        curAccount = curAccount->next;
+    }
 }
 void loadSeverData(schoolYear* &headSchoolYear){
     fstream fs;

@@ -1,25 +1,5 @@
 #include "functionPrototype.h"
 
-schoolYear* getSchoolYear(dataSchoolYear newData){
-    schoolYear* newNode = new schoolYear;
-    newNode->data.startYear = newData.startYear;
-    newNode->data.endYear = newData.endYear;
-    newNode->next = newNode->prev = NULL;
-    return newNode;
-}
-void pushBackSchoolYear(schoolYear* &head, dataSchoolYear newData){
-    schoolYear* newSchoolYear = getSchoolYear(newData);
-    if (!head){
-        head = newSchoolYear;
-        return;
-    }
-
-    schoolYear* cur = head;
-    while (cur->next)
-        cur = cur->next;
-    newSchoolYear->prev = cur;
-    cur->next = newSchoolYear;
-}
 void creatSchoolYear(schoolYear* &headSchoolYear){
     system("CLS");
     cout << "CREATE NEW SCHOOL YEAR\n";
@@ -30,26 +10,6 @@ void creatSchoolYear(schoolYear* &headSchoolYear){
     cout << "Enter the end year of the new school year: ";
     cin >> input.endYear;
     pushBackSchoolYear(headSchoolYear, input);
-}
-Class* getClass(string newData){
-    Class* newNode = new Class;
-    newNode->data.className = newData;
-    newNode->data.student = NULL;
-    newNode->next = newNode->prev = NULL;
-    return newNode;
-}
-void pushBackClass(Class* &head, string newData){
-    Class* newClass = getClass(newData);
-    if (!head){
-        head = newClass;
-        return;
-    }
-
-    Class* cur = head;
-    while (cur->next)
-        cur = cur->next;
-    newClass->prev = cur;
-    cur->next = newClass;
 }
 void createClass(Class* &headClass){
     system("CLS");
@@ -84,57 +44,30 @@ void showClass(Class* headClass){
     }
     getch();
 }
-void pushBackStudent(Account* &curStudent, Account* &headStudent){
-    if (!headStudent){
-        headStudent = curStudent;
-        return;
-    }
-    Account* lastStudent = headStudent;
-    while (lastStudent->next){
-        if (lastStudent->data.username == curStudent->data.username) return;
-        lastStudent = lastStudent->next;
-    }
-
-    lastStudent->next = curStudent;
-    curStudent->prev = lastStudent;
-}
 void add1stStudents(Account* headAccount, Class* &headClass){
-    if (!headClass){
-        system("CLS");
-        cout << "No class available!";
-        getch();
-        return;
+    fstream fs;
+    fs.open("classData.csv", ios::in);
+    while (!fs.eof()){
+        dataAccount data;
+        getline(fs, data.userID, ',');
+        getline(fs, data.studentID, ',');
+        getline(fs, data.socialId, ',');
+        getline(fs, data.firstName, ',');
+        getline(fs, data.lastName, ',');
+        getline(fs, data.gender, ',');
+        getline(fs, data.dob, ',');
+        getline(fs, data._class);
+        data.username = data.studentID;
+        data.password = "a";
+        data.accountType = "2";
+        data.title = "NULL";
+        pushBackAccount(headAccount, data);
     }
-    Class* curClass = headClass;
-    while (curClass){
-        Account* curAccount = headAccount;
-        while (curAccount){
-            if (curAccount->data._class == curClass->data.className){
-                Account* newStudent = getAccount(curAccount->data);
-                pushBackStudent(newStudent, curClass->data.student);
-            }
-            curAccount = curAccount->next;
-        }
-        curClass = curClass->next;
-    }
-}
-Course* getCourse(dataCourse dataC){
-    Course *newCourse = new Course;
-    newCourse->data = dataC;
-    newCourse->next = newCourse->prev = NULL;
-    return newCourse;
-}
-void push_course(Course* &headCourse, dataCourse dataC){
-    Course* newCourse = getCourse(dataC);
-    if (!headCourse){
-        headCourse = newCourse;
-        return;
-    }
-    Course *curCourse = headCourse;
-    while (curCourse->next)
-        curCourse = curCourse->next;
-    newCourse->prev = curCourse;
-    curCourse->next = newCourse;
+    fs.close();
+    loadClass(headClass, headAccount);
+    system("CLS");
+    cout << "Complete!";
+    getch();
 }
 void create_Course(Course* &headCourse){
     if (headCourse){
@@ -155,6 +88,9 @@ void create_Course(Course* &headCourse){
     cout << "Enter course name : ";
     cin.ignore();
     getline(cin, dataC.course_name);
+//    cout << "Enter teacher name : ";
+//    cin.ignore();
+//    getline(cin, dataC.teacher_name);
     cout << "Enter number of credits : ";
     cin >> dataC.credits;
     cout << "Enter the maximum number of students in the course (default 50) :";
@@ -169,24 +105,6 @@ void create_Course(Course* &headCourse){
     cin >> dataC.session2.time;
     push_course(headCourse, dataC);
     create_Course(headCourse);
-}
-Semester* getSemester(dataSemester dataS){
-    Semester *newSemester = new Semester;
-    newSemester->data = dataS;
-    newSemester->next = newSemester->prev = NULL;
-    return newSemester;
-}
-void push_Semester(Semester* &headSemester, dataSemester dataS){
-    Semester* newSemester = getSemester(dataS);
-    if (!headSemester){
-        headSemester = newSemester;
-        return;
-    }
-    Semester *curSemester = headSemester;
-    while (curSemester->next)
-        curSemester = curSemester->next;
-    newSemester->prev = curSemester;
-    curSemester->next = newSemester;
 }
 void create_Semester(Semester* &headSemester){
     system("CLS");
@@ -207,7 +125,87 @@ void create_Semester(Semester* &headSemester){
     create_Course(dataS.headCourse);
     push_Semester(headSemester, dataS);
 }
-void viewCourseList(Course* headCourse){
+void deleteCourse(Course* &curCourse, Course* &headCourse){
+    if (!headCourse) return;
+
+    if (curCourse->next == curCourse->prev){
+        headCourse = NULL;
+        delete headCourse;
+        return;
+    }
+
+    if (!curCourse->prev){
+        headCourse = curCourse->next;
+        headCourse->prev = NULL;
+    }
+    else if (!curCourse->next) curCourse->prev->next = NULL;
+    else{
+        curCourse->prev->next = curCourse->next;
+        curCourse->next->prev = curCourse->prev;
+    }
+    delete curCourse;
+}
+void changeCourseInfor(dataCourse &dataC, int x){
+    if (x == 1){
+        cout << "Enter course id : ";
+        cin >> dataC.id;
+    }
+    else if (x == 2){
+        cout << "Enter course name : ";
+        cin.ignore();
+        getline(cin, dataC.course_name);
+    }
+    else if (x == 3){
+        cout << "Enter number of credits : ";
+        cin >> dataC.credits;
+    }
+    else if (x == 4){
+        cout << "Enter the maximum number of students in the course (default 50) :";
+        cin >> dataC.max_students;
+    }
+    else if (x == 5){
+        cout << "Enter session 1's day (MON/ TUE/ WED/ THU/ FRI/ SAT): ";
+        cin >> dataC.session1.day;
+        cout << "Enter session 1's time [S1(07:30)/ S2(09:30)/ S3(13:30)/ S4(15:30)]: ";
+        cin >> dataC.session1.time;
+    }
+    else if (x == 6){
+        cout << "Enter session 2's day (MON/ TUE/ WED/ THU/ FRI/ SAT): ";
+        cin >> dataC.session2.day;
+        cout << "Enter session 2's time [S1(07:30)/ S2(09:30)/ S3(13:30)/ S4(15:30)]: ";
+        cin >> dataC.session2.time;
+    }
+}
+void viewCourseInfor(Course* &curCourse, Course* &headCourse){
+    system("CLS");
+    cout << "COURSES INFORMATION\n";
+    cout << "-------------------\n";
+
+    dataCourse dataC = curCourse->data;
+    cout << "1. ID: " << dataC.id << endl;
+    cout << "2. Name: " << dataC.course_name << endl;
+    cout << "3. Credits: " << dataC.credits << endl;
+    cout << "4. Max Students: " << dataC.max_students << endl;
+
+    string sesTime[4] = {"7h30", "9h30", "13h30", "15h30"};
+    cout << "5. Session 1: " << dataC.session1.day <<" - " << sesTime[int(char(dataC.session1.time[1]))-49] << endl;
+    cout << "6. Session 2: " << dataC.session2.day <<" - " << sesTime[int(char(dataC.session2.time[1]))-49] << endl;
+    cout << "0. Back!\n";
+    cout << "---> DELETE THIS COURSE!!! (Press x)\n";
+    cout << "(Select the information you want to change by enter number)\n";
+    string input;
+    cin >> input;
+    if (input == "x"){
+        deleteCourse(curCourse, headCourse);
+        return;
+    }
+    else if (input == "0") return;
+    else changeCourseInfor(curCourse->data, int(char(input[0])) - 48);
+    cout << "Complete!";
+    getch();
+    viewCourseInfor(curCourse, headCourse);
+}
+void viewCourseList(Course* &headCourse){
     system("CLS");
     if (!headCourse){
         cout << "No course available!";
@@ -218,13 +216,23 @@ void viewCourseList(Course* headCourse){
     cout << "------------\n";
     Course *curCourse = headCourse;
     int cnt = 0;
-    while (curCourse) {
+    while (curCourse){
         cnt++;
         dataCourse dataC = curCourse->data;
         cout << cnt << ". " << dataC.course_name << '\n';
         curCourse = curCourse->next;
     }
-    getch();
+    cout << "0. Back!\n";
+
+    string input;
+    cin >> input;
+    if (input == "0") return;
+
+    curCourse = headCourse;
+    cnt = int(char(input[0])) - 48;
+    while (--cnt) curCourse = curCourse->next;
+    viewCourseInfor(curCourse, headCourse);
+    viewCourseList(headCourse);
 }
 schoolYear* chooseSchoolYear(schoolYear *headSchoolYear){
     system("CLS");
@@ -300,4 +308,3 @@ void staffProcess(Account* &curAccount, Account* &headAccount, Class* &headClass
     updateSeverData(headSchoolYear);
     staffProcess(curAccount, headAccount, headClass, headSchoolYear);
 }
-

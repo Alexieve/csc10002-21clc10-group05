@@ -4,7 +4,7 @@ void dataAccount::showProfile(){
     system("CLS");
     cout << "ACCOUNT PROFILE\n";
     cout << "---------------\n";
-    cout << "User ID: " << id << endl;
+    cout << "User ID: " << studentID << endl;
     cout << "Social ID: " << socialId << endl;
     cout << "Name: " << lastName << " " << firstName << endl;
     cout << "Gender: " << gender << endl;
@@ -49,7 +49,7 @@ void updateAccountData(Account* headAccount){
         fs << cur->data.password << ',';
         fs << cur->data.accountType << ',';
         fs << cur->data.userID << ',';
-        fs << cur->data.id << ',';
+        fs << cur->data.studentID << ',';
         fs << cur->data.socialId << ',';
         fs << cur->data.firstName << ',';
         fs << cur->data.lastName << ',';
