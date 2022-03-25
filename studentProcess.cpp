@@ -29,6 +29,42 @@ void enrollCourse(Account* &curAccount, schoolYear* &headSchoolYear){
     /// how to check conflict is create a linked list have 6 days from MON - SAT
     /// each day will have 4 times (S1 - S4)
     /// when success enroll a course, push day and time into this linked list of curAccount
+    chooseCourseEnrolled(headCourses);
+}
+bool isDuplicated(Course* headCourse, ){
+	Course* pCur = headCourse;
+	while()
+}
+int chooseCourseEnrolled(Course* headCourse){
+	int choose_num;
+	cout << "Enter the ordinal number of the course you want to register for: ";
+	cin >> choose_num;
+	int num_student = 0;
+	int num_courses = 0;
+	Course* cur = headCourse;
+	while(cur){
+		if(choose_num == cur->data.id){
+			if(isDuplicated())
+				chooseCourseEnrolled(headCourses);
+			else{
+				num_course++;
+				if(num_course + 1 > 5){
+					cout << "Cannot continue to register because you have registed 5 courses!";
+				}
+				else{
+					num_student++;
+					if(num_course + 1 > 50){
+						cout << "Cannot continue to register because this course is full, please choose another courses!";
+						chooseCourseEnrolled(headCourses);
+					}
+					else{
+						//  push curAccount into curCourse->data.studentList and push course into curAccount->data.courseList
+					}
+				}
+			}
+		}
+	}
+	cout << "Complete enrolling!!!";
 }
 void studentProcess(Account* &curAccount, Account* &headAccount, Class* &headClass, schoolYear* &headSchoolYear){
     system("CLS");
@@ -41,6 +77,7 @@ void studentProcess(Account* &curAccount, Account* &headAccount, Class* &headCla
     cin >> input;
     if (input == "1") enrollCourse(curAccount, headSchoolYear);
     else if (input == "2") viewEnrolledCourse(curAccount -> data);
+    else if (input == "3")  
     else if (input == "0") return;
     studentProcess(curAccount, headAccount, headClass, headSchoolYear);
 }

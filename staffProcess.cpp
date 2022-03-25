@@ -287,13 +287,13 @@ void viewEnrolledCourse(dataAccount dataA) {
 
             curCourse = curCourse -> next;
         }
-        cout << "6. Delete a course" << '\n';
+        cout << "5. Delete a course" << '\n';
         cout << "0. Back!" << '\n';
         string input;
         cin >> input;
         if (input == "0")
             return;
-        if (input == "6") {
+        if (input == "5") {
             cout << "Enter a course you want to delete : ";
             cin >> input;
             int x = input[0] - '0';
