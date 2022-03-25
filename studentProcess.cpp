@@ -17,7 +17,7 @@ void enrollCourse(Account* &curAccount, schoolYear* &headSchoolYear){
         getch();
         return;
     }
-    viewCourseList(curS->data.headCourse);
+    viewCourseList(curS->data.headCourse, curAccount);
     /// choose course to enroll
     /// check if this course is not conflict with exist course
     /// if not conflict, then push curAccount into curCourse->data.studentList
@@ -40,6 +40,7 @@ void studentProcess(Account* &curAccount, Account* &headAccount, Class* &headCla
     string input = "";
     cin >> input;
     if (input == "1") enrollCourse(curAccount, headSchoolYear);
+    else if (input == "2") viewEnrolledCourse(curAccount -> data);
     else if (input == "0") return;
     studentProcess(curAccount, headAccount, headClass, headSchoolYear);
 }

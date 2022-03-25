@@ -28,4 +28,3 @@ bool login(Account* head, Account* &curAccount){
     getch();
     return true;
 }
-

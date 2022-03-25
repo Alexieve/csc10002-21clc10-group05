@@ -19,6 +19,7 @@ bool start(Account* &headAccount, Class* &headClass, schoolYear*& headSchoolYear
         else if (input == "3") return true;
         else if (input == "0") return false;
         updateAccountData(headAccount); // update account data after run program
+        //updateAccountCourse(headAccount);
     }
 }
 int main(){
@@ -26,9 +27,9 @@ int main(){
     Class* headClass = NULL;
     schoolYear* headSchoolYear = NULL;
     loadAccount(headAccount);
+    //loadAccountCourse(headAccount);
     loadClass(headClass, headAccount);
     loadSeverData(headSchoolYear);
     while (start(headAccount, headClass, headSchoolYear));
     return 0;
 }
-
