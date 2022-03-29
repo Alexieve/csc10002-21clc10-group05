@@ -63,7 +63,14 @@ struct schoolYear{
     dataSchoolYear data;
     schoolYear *next, *prev;
 };
-
+struct Day{
+	dataDay data;
+	Day *next, *prev;
+};
+struct dataDay{
+	string name; 
+	string time1, time2, time3, time4;
+}; 
 Account* getAccount(dataAccount newData);
 void pushBackAccount(Account* &head, dataAccount newData);
 void loadAccount(Account* &head);
@@ -104,4 +111,7 @@ bool compareDate(string year1, string month1, string day1, string year2, string 
 bool checkEnrollTime(Semester* curSemester);
 void enrollCourse(Account* &curAccount, schoolYear* &headSchoolYear);
 void viewEnrolledCourse(dataAccount dataA);
+Day* getDay(dataDay newData);
+void pushDay(Day* &head, dataDay newData);
+void createDay(Day* &headDay, Course *headCourse);
 #endif  _FUNCTIONPROTOTYPE_H_

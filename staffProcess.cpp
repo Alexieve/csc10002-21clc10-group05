@@ -213,6 +213,7 @@ void viewCourseInfor(Course* &curCourse, Course* &headCourse, Account* &curAccou
             addCourseAccount(dataA.hCourse, curCourse -> data);
             curAccount -> data = dataA;
             curAccount -> data.nCourse++;
+            // createDay(headDay, headCourse);
             cout << "Successfully enrolled!";
             getch();
             return;
@@ -270,7 +271,7 @@ void viewCourseList(Course* &headCourse, Account* &curAccount){
         curCourse = headCourse;
         cnt = int(char(input[0])) - 48;
         while (--cnt) curCourse = curCourse->next;
-        viewCourseInfor(curCourse, headCourse, curAccount);
+        viewCourseInfor(curCourse, headCourse, curAccount, headDay);
     }
 }
 
@@ -287,13 +288,13 @@ void viewEnrolledCourse(dataAccount dataA) {
 
             curCourse = curCourse -> next;
         }
-        cout << "5. Delete a course" << '\n';
+        cout << "6. Delete a course" << '\n';
         cout << "0. Back!" << '\n';
         string input;
         cin >> input;
         if (input == "0")
             return;
-        if (input == "5") {
+        if (input == "6") {
             cout << "Enter a course you want to delete : ";
             cin >> input;
             int x = input[0] - '0';

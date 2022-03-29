@@ -28,44 +28,42 @@ void enrollCourse(Account* &curAccount, schoolYear* &headSchoolYear){
 
     /// how to check conflict is create a linked list have 6 days from MON - SAT
     /// each day will have 4 times (S1 - S4)
-    /// when success enroll a course, push day and time into this linked list of curAccount
-    chooseCourseEnrolled(headCourses);
+    /// when success enroll a course, push day and time into this linked list of curAccount   
 }
-bool isDuplicated(Course* headCourse, ){
-	Course* pCur = headCourse;
-	while()
+// create linked list have 6 days
+Day* getDay(dataDay newData){
+    Day* newNode = new Day;
+    newNode->data.name = newData.name;
+    newNode->data.time1 = newData.time1;
+    newNode->data.time2 = newData.time2;
+    newNode->data.time3 = newData.time3;
+    newNode->data.time4 = newData.time4;
+    newNode->next = newNode->prev = NULL;
+    return newNode;
 }
-int chooseCourseEnrolled(Course* headCourse){
-	int choose_num;
-	cout << "Enter the ordinal number of the course you want to register for: ";
-	cin >> choose_num;
-	int num_student = 0;
-	int num_courses = 0;
-	Course* cur = headCourse;
-	while(cur){
-		if(choose_num == cur->data.id){
-			if(isDuplicated())
-				chooseCourseEnrolled(headCourses);
-			else{
-				num_course++;
-				if(num_course + 1 > 5){
-					cout << "Cannot continue to register because you have registed 5 courses!";
-				}
-				else{
-					num_student++;
-					if(num_course + 1 > 50){
-						cout << "Cannot continue to register because this course is full, please choose another courses!";
-						chooseCourseEnrolled(headCourses);
-					}
-					else{
-						//  push curAccount into curCourse->data.studentList and push course into curAccount->data.courseList
-					}
-				}
-			}
-		}
-	}
-	cout << "Complete enrolling!!!";
+void pushDay(Day* &head, dataDay newData){
+    Day* newDay = getDat(newData);
+    if (!head){
+        head = Day;
+        return;
+    }
+
+    Day* cur = head;
+    while (cur->next){
+        if (cur->data.time1 == newData.time1 && cur->data.time2 == newData.time2 && cur->data.time3 == newData.time3 && cur->data.time4 == newData.time4) return;
+        cur = cur->next;
+    }
+    if (cur->data.time1 == newData.time1 && cur->data.time2 == newData.time2 && cur->data.time3 == newData.time3 && cur->data.time4 == newData.time4) return;
+    newDay->prev = cur;
+    cur->next = newDay;
 }
+/*
+void createDay(Day* &headDay, Course *headCourse){
+	dataDay dataD;
+	dataD.name = headCourse->data.session1.day;
+    pushDay(headDay, dataD);
+}
+*/
 void studentProcess(Account* &curAccount, Account* &headAccount, Class* &headClass, schoolYear* &headSchoolYear){
     system("CLS");
     cout << "1. Enroll in a course\n";
