@@ -9,14 +9,18 @@
 #include <ctime>
 using namespace std;
 
+struct dataAccount;
+struct Account;
 
 struct Session {
     string day, time;
 };
 struct dataCourse {
     string startDate, endDate;
-    string id, course_name, teacher_name, credits, max_students = "50", days;
+    string id, course_name, teacher_name, credits, days;
+    int max_students = 50, nStudent = 0;
     Session session1, session2;
+    Account *hAccount = NULL;
 };
 struct Course {
     dataCourse data;
@@ -63,14 +67,7 @@ struct schoolYear{
     dataSchoolYear data;
     schoolYear *next, *prev;
 };
-struct Day{
-	dataDay data;
-	Day *next, *prev;
-};
-struct dataDay{
-	string name; 
-	string time1, time2, time3, time4;
-}; 
+
 Account* getAccount(dataAccount newData);
 void pushBackAccount(Account* &head, dataAccount newData);
 void loadAccount(Account* &head);
@@ -91,27 +88,31 @@ void createClass(Class* &headClass);
 void pushBackStudent(Account* &curStudent, Account* &headStudent);
 void add1stStudents(Account* headAccount, Class* &headClass);
 void studentProcess(Account* &curAccount, Account* &headAccount, Class* &headClass, schoolYear* &headSchoolYear);
-void showClass(Class* headClass);
+void viewClass(Class* headClass);
+void viewStudentInClass(Class* curClass);
+Course* getCourse(dataCourse dataC);
 void push_course(Course* &headCourse, dataCourse dataC);
 void create_Course(Course* &headCourse);
+Semester* getSemester(dataSemester dataS);
 void push_Semester(Semester* &headSemester, dataSemester dataS);
 void create_Semester(Semester* &headSemester);
 schoolYear* chooseSchoolYear(schoolYear *headSchoolYear);
 Semester* chooseSemester(Semester *headSemester);
-void addCourseAccount(Course* &hCourse, dataCourse dataC);
-void viewCourseList(Course* &headCourse, Account* &curAccount);
+void viewCourseList(Course* &headCourse, Account* &curAccount, bool studentMode);
 schoolYear* chooseSchoolYearToAddSemester(schoolYear *headSchoolYear);
 void loadSeverData(schoolYear* &headSchoolYear);
 void updateSeverData(schoolYear* &headSchoolYear);
 void loadClass(Class* &headClass, Account* headAccount);
-void viewCourseInfor(dataCourse &dataC, Course*& headCourse, Account*& curAccount);
+void viewCourseInfor(dataCourse &dataC, Course*& headCourse, Account*& curAccount, bool studentMode);
 void deleteCourse(Course* &curCourse);
 void changeCourseInfor(dataCourse &dataC, int x);
 bool compareDate(string year1, string month1, string day1, string year2, string month2, string day2);
 bool checkEnrollTime(Semester* curSemester);
 void enrollCourse(Account* &curAccount, schoolYear* &headSchoolYear);
-void viewEnrolledCourse(dataAccount dataA);
-Day* getDay(dataDay newData);
-void pushDay(Day* &head, dataDay newData);
-void createDay(Day* &headDay, Course *headCourse);
+bool checkEnrolledCourse(dataCourse dataC, Account* curAccount);
+bool checkConflictCourse(dataCourse curCouse, Course* hCourse);
+void addCoureForStudent(Account* &curAccount, dataCourse dataC);
+void addAccountForCourse(Course* &curCourse, dataAccount newData);
+void viewCourseInforStudent(Course* &curCourse, Account* &curAccount);
+void viewCourseListStudentToEnroll(Course* &headCourse, Account* &curAccount);
 #endif  _FUNCTIONPROTOTYPE_H_

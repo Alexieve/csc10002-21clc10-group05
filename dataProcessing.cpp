@@ -161,3 +161,62 @@ bool checkEnrollTime(Semester* curSemester){
     if (check1 && check2) return true;
     return false;
 }
+void addCoureForStudent(Account* &curAccount, dataCourse dataC){
+    curAccount->data.nCourse++;
+    Course* newCourse = getCourse(dataC);
+    if (!curAccount->data.hCourse){
+        curAccount->data.hCourse = newCourse;
+        return;
+    }
+    Course *curCourse = curAccount->data.hCourse;
+    while (curCourse->next){
+        if (curCourse->data.id == dataC.id) return;
+        curCourse = curCourse->next;
+    }
+    if (curCourse->data.id == dataC.id) return;
+    newCourse->prev = curCourse;
+    curCourse->next = newCourse;
+}
+void addAccountForCourse(Course* &curCourse, dataAccount newData){
+    curCourse->data.nStudent++;
+    Account* newAccount = getAccount(newData);
+    if (!curCourse->data.hAccount){
+        curCourse->data.hAccount = newAccount;
+        return;
+    }
+
+    Account* cur = curCourse->data.hAccount;
+    while (cur->next){
+        if (cur->data.studentID == newData.studentID) return;
+        cur = cur->next;
+    }
+    if (cur->data.studentID == newData.studentID) return;
+    newAccount->prev = cur;
+    cur->next = newAccount;
+}
+bool checkEnrolledCourse(dataCourse dataC, Account* curAccount){
+    Course* curStudentCourse = curAccount->data.hCourse;
+    while (curStudentCourse){
+        if (curStudentCourse->data.id == dataC.id) return true;
+        curStudentCourse = curStudentCourse->next;
+    }
+    return false;
+}
+bool checkConflictCourse(dataCourse curCouse, Course* hCourse){
+    while (hCourse){
+        if (curCouse.session1.day == hCourse->data.session1.day
+            && curCouse.session1.time == hCourse->data.session1.time)
+                return true;
+        if (curCouse.session1.day == hCourse->data.session2.day
+            && curCouse.session1.time == hCourse->data.session2.time)
+                return true;
+        if (curCouse.session2.day == hCourse->data.session1.day
+            && curCouse.session2.time == hCourse->data.session1.time)
+                return true;
+        if (curCouse.session2.day == hCourse->data.session2.day
+            && curCouse.session2.time == hCourse->data.session2.time)
+                return true;
+        hCourse = hCourse->next;
+    }
+    return false;
+}

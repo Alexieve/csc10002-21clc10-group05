@@ -1,5 +1,66 @@
 #include "functionPrototype.h"
 
+void viewCourseInforStudent(Course* &curCourse, Account* &curAccount){
+    system("CLS");
+    cout << "COURSES INFORMATION\n";
+    cout << "-------------------\n";
+
+    dataCourse dataC = curCourse->data;
+    cout << "1. ID: " << dataC.id << endl;
+    cout << "2. Name: " << dataC.course_name << endl;
+    cout << "3. Teacher's name: " << dataC.teacher_name << endl;
+    cout << "4. Credits: " << dataC.credits << endl;
+    cout << "5. Max Students: " << dataC.max_students << endl;
+
+    string sesTime[4] = {"7h30", "9h30", "13h30", "15h30"};
+    cout << "6. Session 1: " << dataC.session1.day <<" - " << sesTime[int(char(dataC.session1.time[1]))-49] << endl;
+    cout << "7. Session 2: " << dataC.session2.day <<" - " << sesTime[int(char(dataC.session2.time[1]))-49] << endl;
+    cout << "0. Back!\n";
+    cout << "---> ENROLL THIS COURSE!!! (Press x)\n";
+    string input;
+    cin >> input;
+    if (input == "0") return;
+    if (checkEnrolledCourse(curCourse->data, curAccount))
+        cout << "This course is enrolled!";
+    if (checkConflictCourse(curCourse->data, curAccount->data.hCourse))
+        cout << "This course is conflicted with existing enrolled course sessions!\n";
+    if (curAccount->data.nCourse >= 5)
+        cout << "You have have already enrolled 5 courses!\n";
+    if (curCourse->data.nStudent >= curCourse->data.max_students)
+        cout << "This course cannot enroll anymore!\n";
+    else{
+        addCoureForStudent(curAccount, curCourse->data);
+        addAccountForCourse(curCourse, curAccount->data);
+        cout << "You have enrolled '" << curCourse->data.course_name << "' course!\n";
+    }
+    getch();
+}
+void viewCourseListStudentToEnroll(Course* &headCourse, Account* &curAccount){
+    system("CLS");
+    if (!headCourse){
+        cout << "No course available!";
+        getch();
+        return;
+    }
+    cout << "COURSES LIST\n";
+    cout << "------------\n";
+    Course *curCourse = headCourse;
+    int cnt = 0;
+    while (curCourse){
+        dataCourse dataC = curCourse->data;
+        cout << ++cnt << ". " << dataC.course_name << '\n';
+        curCourse = curCourse->next;
+    }
+    cout << "0. Back!\n";
+    string input;
+    cin >> input;
+    if (input == "0") return;
+    cnt = stoi(input);
+    curCourse = headCourse;
+    while (--cnt) curCourse = curCourse->next;
+    viewCourseInforStudent(curCourse, curAccount);
+    viewCourseListStudentToEnroll(headCourse, curAccount);
+}
 void enrollCourse(Account* &curAccount, schoolYear* &headSchoolYear){
     schoolYear *curSY = headSchoolYear;
     Semester *curS = NULL;
@@ -17,53 +78,8 @@ void enrollCourse(Account* &curAccount, schoolYear* &headSchoolYear){
         getch();
         return;
     }
-    viewCourseList(curS->data.headCourse, curAccount);
-    /// choose course to enroll
-    /// check if this course is not conflict with exist course
-    /// if not conflict, then push curAccount into curCourse->data.studentList
-    /// and push course into curAccount->data.courseList
-    /// and increase course->data.numStudent by 1 (max = maxStudent)
-    /// and increase curAccount->data.numCourse by 1 (max = 5)
-    /// if conflict, then announce that this course is conflict with other course
-
-    /// how to check conflict is create a linked list have 6 days from MON - SAT
-    /// each day will have 4 times (S1 - S4)
-    /// when success enroll a course, push day and time into this linked list of curAccount   
+    viewCourseListStudentToEnroll(curS->data.headCourse, curAccount);
 }
-// create linked list have 6 days
-Day* getDay(dataDay newData){
-    Day* newNode = new Day;
-    newNode->data.name = newData.name;
-    newNode->data.time1 = newData.time1;
-    newNode->data.time2 = newData.time2;
-    newNode->data.time3 = newData.time3;
-    newNode->data.time4 = newData.time4;
-    newNode->next = newNode->prev = NULL;
-    return newNode;
-}
-void pushDay(Day* &head, dataDay newData){
-    Day* newDay = getDat(newData);
-    if (!head){
-        head = Day;
-        return;
-    }
-
-    Day* cur = head;
-    while (cur->next){
-        if (cur->data.time1 == newData.time1 && cur->data.time2 == newData.time2 && cur->data.time3 == newData.time3 && cur->data.time4 == newData.time4) return;
-        cur = cur->next;
-    }
-    if (cur->data.time1 == newData.time1 && cur->data.time2 == newData.time2 && cur->data.time3 == newData.time3 && cur->data.time4 == newData.time4) return;
-    newDay->prev = cur;
-    cur->next = newDay;
-}
-/*
-void createDay(Day* &headDay, Course *headCourse){
-	dataDay dataD;
-	dataD.name = headCourse->data.session1.day;
-    pushDay(headDay, dataD);
-}
-*/
 void studentProcess(Account* &curAccount, Account* &headAccount, Class* &headClass, schoolYear* &headSchoolYear){
     system("CLS");
     cout << "1. Enroll in a course\n";
@@ -74,8 +90,14 @@ void studentProcess(Account* &curAccount, Account* &headAccount, Class* &headCla
     string input = "";
     cin >> input;
     if (input == "1") enrollCourse(curAccount, headSchoolYear);
-    else if (input == "2") viewEnrolledCourse(curAccount -> data);
-    else if (input == "3")  
+    else if (input == "2") viewCourseList(curAccount->data.hCourse, curAccount, false);
+    else if (input == "3") viewClass(headClass);
+    else if (input == "4"){
+        schoolYear* curSchoolYear = chooseSchoolYear(headSchoolYear);
+        Semester* curSemester = NULL;
+        if (curSchoolYear) curSemester = chooseSemester(headSchoolYear->data.headSemester);
+        if (curSemester) viewCourseList(curSemester->data.headCourse, curAccount, true);
+    }
     else if (input == "0") return;
     studentProcess(curAccount, headAccount, headClass, headSchoolYear);
 }

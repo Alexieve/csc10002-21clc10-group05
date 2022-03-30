@@ -21,7 +21,6 @@ void loadAccount(Account* &head){
     }
     fs.close();
 }
-
 void loadAccountCourse(Account* &head) {
     fstream fs;
     fs.open("courseData.csv", ios::in);
@@ -40,7 +39,9 @@ void loadAccountCourse(Account* &head) {
                 getline(fs, dataC.course_name, ',');
                 getline(fs, dataC.teacher_name, ',');
                 getline(fs, dataC.credits, ',');
-                getline(fs, dataC.max_students, ',');
+                string mxStudent;
+                getline(fs, mxStudent, ',');
+                dataC.max_students = stoi(mxStudent);
                 getline(fs, dataC.days, ',');
                 getline(fs, dataC.session1.day, ',');
                 getline(fs, dataC.session1.time, ',');
@@ -49,7 +50,7 @@ void loadAccountCourse(Account* &head) {
                     getline(fs, dataC.session2.time, ',');
                 else
                     getline(fs, dataC.session2.time);
-                addCourseAccount(curHead -> data.hCourse, dataC);
+                push_course(curHead -> data.hCourse, dataC);
                 cnt--;
             }
             curHead = curHead -> next;
@@ -57,7 +58,6 @@ void loadAccountCourse(Account* &head) {
     }
     fs.close();
 }
-
 void loadClass(Class* &headClass, Account* headAccount){
     Account *curAccount = headAccount;
     while (curAccount){
@@ -109,7 +109,9 @@ void loadSeverData(schoolYear* &headSchoolYear){
                 getline(fs, dataC.course_name, ',');
                 getline(fs, dataC.teacher_name, ',');
                 getline(fs, dataC.credits, ',');
-                getline(fs, dataC.max_students);
+                string mxStudent;
+                getline(fs, mxStudent);
+                dataC.max_students = stoi(mxStudent);
 
                 getline(fs, dataC.session1.day, ',');
                 getline(fs, dataC.session1.time, ',');
@@ -122,7 +124,6 @@ void loadSeverData(schoolYear* &headSchoolYear){
     }
     fs.close();
 }
-
 void updateAccountCourse(Account *head) {
     fstream fs;
     fs.open("courseData.csv", ios::out);
@@ -152,7 +153,6 @@ void updateAccountCourse(Account *head) {
     }
     fs.close();
 }
-
 void updateSeverData(schoolYear* &headSchoolYear){
     fstream fs;
     fs.open("severData.csv", ios::out);
