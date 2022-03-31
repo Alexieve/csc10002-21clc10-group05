@@ -19,7 +19,11 @@ bool start(Account* &headAccount, Class* &headClass, schoolYear*& headSchoolYear
         else if (input == "3") return true;
         else if (input == "0") return false;
         updateAccountData(headAccount); // update account data after run program
-        //updateAccountCourse(headAccount);
+        updateSeverData(headSchoolYear); /// BUG ///
+        /// Khong xoa sinh vien ra khoi khoa hoc duoc trong file csv
+        /// Khong xoa khoa hoc ra khoi course list cua sinh vien duoc trong csv
+        /// Nhung trong du lieu thi xoa roi, update lai khong update dung
+        /// --> bug o phan update, hoac co the nhieu hon
     }
 }
 int main(){
@@ -27,9 +31,9 @@ int main(){
     Class* headClass = NULL;
     schoolYear* headSchoolYear = NULL;
     loadAccount(headAccount);
-    //loadAccountCourse(headAccount);
     loadClass(headClass, headAccount);
     loadSeverData(headSchoolYear);
+    loadAccountCourse(headAccount, headSchoolYear);
     while (start(headAccount, headClass, headSchoolYear));
     return 0;
 }

@@ -1,5 +1,25 @@
 #include "functionPrototype.h"
 
+void deleteStudentInCourse(Account* &hAccount, Account* &curAccount){
+    if (!hAccount) return;
+
+    if (curAccount->next == curAccount->prev){
+        hAccount = NULL;
+        delete hAccount;
+        return;
+    }
+
+    if (!curAccount->prev){
+        hAccount = curAccount->next;
+        hAccount->prev = NULL;
+    }
+    else if (!curAccount->next) curAccount->prev->next = NULL;
+    else{
+        curAccount->prev->next = curAccount->next;
+        curAccount->next->prev = curAccount->prev;
+    }
+    delete curAccount;
+}
 void viewCourseInforStudent(Course* &curCourse, Account* &curAccount){
     system("CLS");
     cout << "COURSES INFORMATION\n";
@@ -22,11 +42,11 @@ void viewCourseInforStudent(Course* &curCourse, Account* &curAccount){
     if (input == "0") return;
     if (checkEnrolledCourse(curCourse->data, curAccount))
         cout << "This course is enrolled!";
-    if (checkConflictCourse(curCourse->data, curAccount->data.hCourse))
+    else if (checkConflictCourse(curCourse->data, curAccount->data.hCourse))
         cout << "This course is conflicted with existing enrolled course sessions!\n";
-    if (curAccount->data.nCourse >= 5)
+    else if (curAccount->data.nCourse >= 5)
         cout << "You have have already enrolled 5 courses!\n";
-    if (curCourse->data.nStudent >= curCourse->data.max_students)
+    else if (curCourse->data.nStudent >= curCourse->data.max_students)
         cout << "This course cannot enroll anymore!\n";
     else{
         addCoureForStudent(curAccount, curCourse->data);
@@ -55,7 +75,7 @@ void viewCourseListStudentToEnroll(Course* &headCourse, Account* &curAccount){
     string input;
     cin >> input;
     if (input == "0") return;
-    cnt = stoi(input);
+    cnt = convertToInt(input);
     curCourse = headCourse;
     while (--cnt) curCourse = curCourse->next;
     viewCourseInforStudent(curCourse, curAccount);
@@ -99,5 +119,6 @@ void studentProcess(Account* &curAccount, Account* &headAccount, Class* &headCla
         if (curSemester) viewCourseList(curSemester->data.headCourse, curAccount, true);
     }
     else if (input == "0") return;
+    updateAccountCourse(headSchoolYear);
     studentProcess(curAccount, headAccount, headClass, headSchoolYear);
 }

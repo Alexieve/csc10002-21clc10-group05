@@ -220,3 +220,9 @@ bool checkConflictCourse(dataCourse curCouse, Course* hCourse){
     }
     return false;
 }
+int convertToInt(string s){
+    int res = 0;
+    for (int i = 0; i < s.length(); i++)
+        res = res * 10 + int(s[i]) - 48;
+    return res;
+}

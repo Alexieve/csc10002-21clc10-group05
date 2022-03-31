@@ -57,7 +57,7 @@ void viewClass(Class* headClass){
     cin >> input;
     if (input == "0") return;
     curClass = headClass;
-    cnt = stoi(input);
+    cnt = convertToInt(input);
     while (--cnt) curClass = curClass->next;
     viewStudentInClass(curClass);
     viewClass(headClass);
@@ -232,6 +232,12 @@ void viewCourseInfor(Course* &curCourse, Course* &headCourse, Account* &curAccou
     }
     else if (input == "x" && !studentMode){
         deleteCourse(curCourse, headCourse);
+        Account* delAccount = curCourse->data.hAccount;
+        while (delAccount){
+            if (delAccount->data.studentID == curAccount->data.studentID) break;
+            delAccount = delAccount->next;
+        }
+        deleteStudentInCourse(curCourse->data.hAccount, delAccount);
         curCourse->data.nStudent--;
         curAccount->data.nCourse--;
     }
@@ -334,6 +340,6 @@ void staffProcess(Account* &curAccount, Account* &headAccount, Class* &headClass
         if (curSemester) viewCourseList(curSemester->data.headCourse, curAccount, false);
     }
     else if (input == "0") return;
-    updateSeverData(headSchoolYear);
+//    updateSeverData(headSchoolYear);
     staffProcess(curAccount, headAccount, headClass, headSchoolYear);
 }

@@ -56,6 +56,7 @@ void updateAccountData(Account* headAccount){
         fs << cur->data.gender << ',';
         fs << cur->data.dob << ',';
         fs << cur->data._class << ',';
+        fs << cur->data.nCourse << ',';
         fs << cur->data.title;
         cur = cur->next;
     }

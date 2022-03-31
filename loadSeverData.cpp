@@ -16,44 +16,60 @@ void loadAccount(Account* &head){
         getline(fs, data.gender, ',');
         getline(fs, data.dob, ',');
         getline(fs, data._class, ',');
+        string nCourse;
+        getline(fs, nCourse, ',');
+        data.nCourse = convertToInt(nCourse);
         getline(fs, data.title);
         pushBackAccount(head, data);
     }
     fs.close();
 }
-void loadAccountCourse(Account* &head) {
+void loadAccountCourse(Account* &hAccount, schoolYear* &hSchoolYear) {
     fstream fs;
     fs.open("courseData.csv", ios::in);
-    while (!fs.eof()) {
-        Account* curHead = head;
-        while (curHead) {
-            string input;
-            getline(fs, input);
-            int cnt = int(input[0]) - '0';
-            curHead -> data.nCourse = cnt;
-            while (cnt > 0) {
-                dataCourse dataC;
-                getline(fs, dataC.startDate, ',');
-                getline(fs, dataC.endDate, ',');
-                getline(fs, dataC.id, ',');
-                getline(fs, dataC.course_name, ',');
-                getline(fs, dataC.teacher_name, ',');
-                getline(fs, dataC.credits, ',');
-                string mxStudent;
-                getline(fs, mxStudent, ',');
-                dataC.max_students = stoi(mxStudent);
-                getline(fs, dataC.days, ',');
-                getline(fs, dataC.session1.day, ',');
-                getline(fs, dataC.session1.time, ',');
-                getline(fs, dataC.session2.day, ',');
-                if (cnt != 1)
-                    getline(fs, dataC.session2.time, ',');
-                else
-                    getline(fs, dataC.session2.time);
-                push_course(curHead -> data.hCourse, dataC);
-                cnt--;
+    while (!fs.eof()){
+        string curStartYear, curEndYear;
+        getline(fs, curStartYear, ',');
+        getline(fs, curEndYear);
+        schoolYear *curSY = hSchoolYear;
+        while (curSY){
+            if (curSY->data.startYear == curStartYear && curSY->data.endYear == curEndYear)
+                break;
+            curSY = curSY->next;
+        }
+        string curSemester, checkS = "1";
+        while (checkS == "1"){
+            getline(fs, curSemester, ',');
+            getline(fs, checkS);
+            Semester *curS = curSY->data.headSemester;
+            while (curS){
+                if (curS->data.num == curSemester) break;
+                curS = curS->next;
             }
-            curHead = curHead -> next;
+            string curCourse, checkC = "1";
+            while (checkC == "1"){
+                getline(fs, curCourse, ',');
+                Course *curC = curS->data.headCourse;
+                while (curC){
+                    if (curC->data.id == curCourse) break;
+                    curC = curC->next;
+                }
+
+                for (int i = 1; i <= curC->data.nStudent; i++){
+                    string studentID;
+                    getline(fs, studentID, ',');
+//                    cout << studentID;
+//                    getch();
+                    Account *curStudent = hAccount;
+                    while (curStudent){
+                        if (curStudent->data.studentID == studentID) break;
+                        curStudent = curStudent->next;
+                    }
+                    push_course(curStudent->data.hCourse, curC->data);
+                    pushBackAccount(curC->data.hAccount, curStudent->data);
+                }
+                getline(fs, checkC);
+            }
         }
     }
     fs.close();
@@ -109,9 +125,11 @@ void loadSeverData(schoolYear* &headSchoolYear){
                 getline(fs, dataC.course_name, ',');
                 getline(fs, dataC.teacher_name, ',');
                 getline(fs, dataC.credits, ',');
-                string mxStudent;
-                getline(fs, mxStudent);
-                dataC.max_students = stoi(mxStudent);
+                string mxStudent, nStudent;
+                getline(fs, mxStudent, ',');
+                getline(fs, nStudent);
+                dataC.max_students = convertToInt(mxStudent);
+                dataC.nStudent = convertToInt(nStudent);
 
                 getline(fs, dataC.session1.day, ',');
                 getline(fs, dataC.session1.time, ',');
@@ -124,36 +142,44 @@ void loadSeverData(schoolYear* &headSchoolYear){
     }
     fs.close();
 }
-void updateAccountCourse(Account *head) {
+void updateAccountCourse(schoolYear* hSchoolYear){
     fstream fs;
     fs.open("courseData.csv", ios::out);
-    Account* curHead = head;
-    while (curHead) {
-        fs << curHead -> data.nCourse << '\n';
-        Course* hCourse = curHead -> data.hCourse;
-        while (hCourse) {
-            fs << hCourse -> data.startDate << ',';
-            fs << hCourse -> data.endDate << ',';
-            fs << hCourse -> data.id << ',';
-            fs << hCourse -> data.course_name << ',';
-            fs << hCourse -> data.teacher_name << ',';
-            fs << hCourse -> data.credits << ',';
-            fs << hCourse -> data.max_students << ',';
-            fs << hCourse -> data.days << ',';
-            fs << hCourse -> data.session1.day << ',';
-            fs << hCourse -> data.session1.time << ',';
-            fs << hCourse -> data.session2.day << ',';
-            if (hCourse -> next)
-                fs << hCourse -> data.session2.time << ',';
-            else
-                fs << hCourse -> data.session2.time << '\n';
-            hCourse = hCourse -> next;
+    schoolYear* curSY = hSchoolYear;
+    bool check = false;
+    while (curSY){
+        if (check) fs << '\n';
+        else check = true;
+
+        dataSchoolYear dataSY = curSY->data;
+        fs << dataSY.startYear << ',' << dataSY.endYear << '\n';
+        Semester *curS = dataSY.headSemester;
+        while (curS){
+            dataSemester dataS = curS->data;
+            fs << dataS.num << ',';
+            if (curS->next) fs << 1 << '\n';
+            else fs << 0 << '\n';
+            Course *curC = dataS.headCourse;
+            while (curC){
+                dataCourse dataC = curC->data;
+                fs << dataC.id << ',';
+                Account *curStudent = dataC.hAccount;
+                while (curStudent){
+                    fs << curStudent->data.studentID << ',';
+                    curStudent = curStudent->next;
+                }
+                if (curC->next) fs << 1 << '\n';
+                else fs << 0;
+                curC = curC->next;
+            }
+            curS = curS->next;
+            if (curS) fs << '\n';
         }
-        curHead = curHead -> next;
+        curSY = curSY->next;
     }
     fs.close();
 }
-void updateSeverData(schoolYear* &headSchoolYear){
+void updateSeverData(schoolYear* headSchoolYear){
     fstream fs;
     fs.open("severData.csv", ios::out);
     schoolYear* curSY = headSchoolYear;
@@ -181,7 +207,8 @@ void updateSeverData(schoolYear* &headSchoolYear){
                 fs << curC->data.course_name << ',';
                 fs << curC->data.teacher_name << ',';
                 fs << curC->data.credits << ',';
-                fs << curC->data.max_students << '\n';
+                fs << curC->data.max_students << ',';
+                fs << curC->data.nStudent << '\n';
 
                 fs << curC->data.session1.day << ',';
                 fs << curC->data.session1.time << ',';
