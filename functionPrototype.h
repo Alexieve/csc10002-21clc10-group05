@@ -90,6 +90,7 @@ void add1stStudents(Account* headAccount, Class* &headClass);
 void studentProcess(Account* &curAccount, Account* &headAccount, Class* &headClass, schoolYear* &headSchoolYear);
 void viewClass(Class* headClass);
 void viewStudentInClass(Class* curClass);
+void viewStudentInCourse(Course* curCourse);
 Course* getCourse(dataCourse dataC);
 void push_course(Course* &headCourse, dataCourse dataC);
 void create_Course(Course* &headCourse);
