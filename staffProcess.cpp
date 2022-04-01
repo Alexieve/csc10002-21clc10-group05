@@ -199,7 +199,7 @@ void changeCourseInfor(dataCourse &dataC, int x){
         cin >> dataC.session2.time;
     }
 }
-void viewCourseInfor(Course* &curCourse, Course* &headCourse, Account* &curAccount, bool studentMode){
+void viewCourseInfor(Course* &curCourse, Course* &headCourse, Account* &curAccount, schoolYear* &headSchoolYear, bool studentMode){
     system("CLS");
     cout << "COURSES INFORMATION\n";
     cout << "-------------------\n";
@@ -228,10 +228,35 @@ void viewCourseInfor(Course* &curCourse, Course* &headCourse, Account* &curAccou
         else changeCourseInfor(curCourse->data, int(char(input[0])) - 48);
         cout << "Complete!";
         getch();
-        viewCourseInfor(curCourse, headCourse, curAccount, studentMode);
+        viewCourseInfor(curCourse, headCourse, curAccount, headSchoolYear, studentMode);
     }
     else if (input == "x" && !studentMode){
+        string cName = curCourse -> data.course_name;
         deleteCourse(curCourse, headCourse);
+        //FIX BUGS
+        Semester *curSemester = headSchoolYear -> data.headSemester;
+        bool FOUND = false;
+        while (curSemester && !FOUND) {
+            Course *crCourse = curSemester -> data.headCourse;
+            while (crCourse && !FOUND) {
+                if (crCourse -> data.course_name == cName) {
+                    FOUND = true;
+                    Account* delAccount = crCourse->data.hAccount;
+                    while (delAccount){
+                        if (delAccount->data.studentID == curAccount->data.studentID) break;
+                        delAccount = delAccount->next;
+                    }
+                    deleteStudentInCourse(crCourse->data.hAccount, delAccount);
+                    crCourse->data.nStudent--;
+                    curAccount->data.nCourse--;
+                }
+                crCourse = crCourse -> next;
+            }
+
+            curSemester = curSemester -> next;
+        }
+        //FIX BUGS
+        /** TEMP CLOSED
         Account* delAccount = curCourse->data.hAccount;
         while (delAccount){
             if (delAccount->data.studentID == curAccount->data.studentID) break;
@@ -240,9 +265,10 @@ void viewCourseInfor(Course* &curCourse, Course* &headCourse, Account* &curAccou
         deleteStudentInCourse(curCourse->data.hAccount, delAccount);
         curCourse->data.nStudent--;
         curAccount->data.nCourse--;
+        **/
     }
 }
-void viewCourseList(Course* &headCourse, Account* &curAccount, bool studentMode){
+void viewCourseList(Course* &headCourse, Account* &curAccount, schoolYear* &headSchoolYear, bool studentMode){
     system("CLS");
     if (!headCourse){
         cout << "No course available!";
@@ -266,8 +292,8 @@ void viewCourseList(Course* &headCourse, Account* &curAccount, bool studentMode)
     curCourse = headCourse;
     cnt = int(char(input[0])) - 48;
     while (--cnt) curCourse = curCourse->next;
-    viewCourseInfor(curCourse, headCourse, curAccount, studentMode);
-    viewCourseList(headCourse, curAccount, studentMode);
+    viewCourseInfor(curCourse, headCourse, curAccount, headSchoolYear, studentMode);
+    viewCourseList(headCourse, curAccount, headSchoolYear, studentMode);
 }
 schoolYear* chooseSchoolYear(schoolYear *headSchoolYear){
     system("CLS");
@@ -337,7 +363,7 @@ void staffProcess(Account* &curAccount, Account* &headAccount, Class* &headClass
         schoolYear* curSchoolYear = chooseSchoolYear(headSchoolYear);
         Semester* curSemester = NULL;
         if (curSchoolYear) curSemester = chooseSemester(headSchoolYear->data.headSemester);
-        if (curSemester) viewCourseList(curSemester->data.headCourse, curAccount, false);
+        if (curSemester) viewCourseList(curSemester->data.headCourse, curAccount, headSchoolYear, false);
     }
     else if (input == "0") return;
 //    updateSeverData(headSchoolYear);
