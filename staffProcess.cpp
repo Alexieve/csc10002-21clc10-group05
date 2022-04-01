@@ -37,6 +37,23 @@ void viewStudentInClass(Class* curClass){
     }
     getch();
 }
+void viewStudentInCourse(Course* curCourse){
+	system("CLS");
+    cout << curCourse->data.course_name << " STUDENTS LIST\n";
+    cout << "------------------------\n";
+    Account* headStudent = curCourse->data.hAccount;
+    if (!headStudent){
+        cout << "No student in this class!";
+        getch();
+        return;
+    }
+    while (headStudent){
+        cout << headStudent->data.studentID << ". "
+        << headStudent->data.lastName << " " << headStudent->data.firstName << endl;
+        headStudent = headStudent->next;
+    }
+    getch();
+}
 void viewClass(Class* headClass){
     system("CLS");
     if (!headClass){
@@ -295,6 +312,10 @@ void viewCourseList(Course* &headCourse, Account* &curAccount, schoolYear* &head
     viewCourseInfor(curCourse, headCourse, curAccount, headSchoolYear, studentMode);
     viewCourseList(headCourse, curAccount, headSchoolYear, studentMode);
 }
+void exportListStudent(Course* headCourse, Account* &curAccount, schoolYear* &headSchoolYear){
+	
+	
+} 
 schoolYear* chooseSchoolYear(schoolYear *headSchoolYear){
     system("CLS");
     if (!headSchoolYear){
@@ -348,6 +369,7 @@ void staffProcess(Account* &curAccount, Account* &headAccount, Class* &headClass
     cout << "4. Create a new semester\n";
     cout << "5. View classes list\n";
     cout << "6. View courses list\n";
+    cout << "7. Export a list of students in a course\n";
     cout << "0. Back!\n";
     string input = "";
     cin >> input;
