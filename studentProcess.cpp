@@ -1,7 +1,7 @@
 #include "functionPrototype.h"
 
 void deleteStudentInCourse(Account* &hAccount, Account* &curAccount){
-    if (!hAccount) return;
+    if (!hAccount || !curAccount) return;
 
     if (curAccount->next == curAccount->prev){
         hAccount = NULL;
@@ -110,13 +110,13 @@ void studentProcess(Account* &curAccount, Account* &headAccount, Class* &headCla
     string input = "";
     cin >> input;
     if (input == "1") enrollCourse(curAccount, headSchoolYear);
-    else if (input == "2") viewCourseList(curAccount->data.hCourse, curAccount, headSchoolYear, false);
+    else if (input == "2") viewCourseList(curAccount->data.hCourse, curAccount, headAccount, headSchoolYear, false);
     else if (input == "3") viewClass(headClass);
     else if (input == "4"){
         schoolYear* curSchoolYear = chooseSchoolYear(headSchoolYear);
         Semester* curSemester = NULL;
         if (curSchoolYear) curSemester = chooseSemester(headSchoolYear->data.headSemester);
-        if (curSemester) viewCourseList(curSemester->data.headCourse, curAccount, headSchoolYear, true);
+        if (curSemester) viewCourseList(curSemester->data.headCourse, curAccount, headAccount, headSchoolYear, true);
     }
     else if (input == "0") return;
     updateAccountCourse(headSchoolYear);

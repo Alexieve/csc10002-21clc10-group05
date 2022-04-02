@@ -58,8 +58,6 @@ void loadAccountCourse(Account* &hAccount, schoolYear* &hSchoolYear) {
                 for (int i = 1; i <= curC->data.nStudent; i++){
                     string studentID;
                     getline(fs, studentID, ',');
-//                    cout << studentID;
-//                    getch();
                     Account *curStudent = hAccount;
                     while (curStudent){
                         if (curStudent->data.studentID == studentID) break;

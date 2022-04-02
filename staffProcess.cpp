@@ -20,13 +20,13 @@ void createClass(Class* &headClass){
     cin >> className;
     pushBackClass(headClass, className);
 }
-void viewStudentInClass(Class* curClass){
+void viewStudentInCourse(Course* curCourse){
     system("CLS");
-    cout << curClass->data.className << " STUDENTS LIST\n";
+    cout << curCourse->data.course_name << " STUDENTS LIST\n";
     cout << "------------------------\n";
-    Account* headStudent = curClass->data.student;
+    Account* headStudent = curCourse->data.hAccount;
     if (!headStudent){
-        cout << "No student in this class!";
+        cout << "No student in this courses!";
         getch();
         return;
     }
@@ -37,11 +37,11 @@ void viewStudentInClass(Class* curClass){
     }
     getch();
 }
-void viewStudentInCourse(Course* curCourse){
-	system("CLS");
-    cout << curCourse->data.course_name << " STUDENTS LIST\n";
+void viewStudentInClass(Class* curClass){
+    system("CLS");
+    cout << curClass->data.className << " STUDENTS LIST\n";
     cout << "------------------------\n";
-    Account* headStudent = curCourse->data.hAccount;
+    Account* headStudent = curClass->data.student;
     if (!headStudent){
         cout << "No student in this class!";
         getch();
@@ -70,6 +70,7 @@ void viewClass(Class* headClass){
         cout << ++cnt << ". " << curClass->data.className << endl;
         curClass = curClass->next;
     }
+    cout << "0. Back!\n";
     string input;
     cin >> input;
     if (input == "0") return;
@@ -162,7 +163,6 @@ void create_Semester(Semester* &headSemester){
 }
 void deleteCourse(Course* &curCourse, Course* &headCourse){
     if (!headCourse) return;
-
     if (curCourse->next == curCourse->prev){
         headCourse = NULL;
         delete headCourse;
@@ -216,7 +216,7 @@ void changeCourseInfor(dataCourse &dataC, int x){
         cin >> dataC.session2.time;
     }
 }
-void viewCourseInfor(Course* &curCourse, Course* &headCourse, Account* &curAccount, schoolYear* &headSchoolYear, bool studentMode){
+void viewCourseInfor(Course* &curCourse, Course* &headCourse, Account* &curAccount, Account* &headAccount, schoolYear* &headSchoolYear, bool studentMode){
     system("CLS");
     cout << "COURSES INFORMATION\n";
     cout << "-------------------\n";
@@ -231,6 +231,7 @@ void viewCourseInfor(Course* &curCourse, Course* &headCourse, Account* &curAccou
     string sesTime[4] = {"7h30", "9h30", "13h30", "15h30"};
     cout << "6. Session 1: " << dataC.session1.day <<" - " << sesTime[int(char(dataC.session1.time[1]))-49] << endl;
     cout << "7. Session 2: " << dataC.session2.day <<" - " << sesTime[int(char(dataC.session2.time[1]))-49] << endl;
+    if (curAccount->data.accountType == "1") cout << "8. View students list\n";
     cout << "0. Back!\n";
     if (!studentMode) cout << "---> DELETE THIS COURSE!!! (Press x)\n";
     string input;
@@ -239,18 +240,32 @@ void viewCourseInfor(Course* &curCourse, Course* &headCourse, Account* &curAccou
     if (curAccount->data.accountType == "1"){
         cout << "(Select the information you want to change by enter number)\n";
         if (input == "x"){
+            Account* delAccount = headAccount;
+            while (delAccount){
+                Course* courseInAccount = delAccount->data.hCourse;
+                while (courseInAccount){
+                    if (courseInAccount->data.id == curCourse->data.id) break;
+                    courseInAccount = courseInAccount->next;
+                }
+                if (!courseInAccount) break;
+                delAccount->data.nCourse--;
+                deleteCourse(courseInAccount, delAccount->data.hCourse);
+                delAccount = delAccount->next;
+            }
             deleteCourse(curCourse, headCourse);
             return;
         }
-        else changeCourseInfor(curCourse->data, int(char(input[0])) - 48);
-        cout << "Complete!";
-        getch();
-        viewCourseInfor(curCourse, headCourse, curAccount, headSchoolYear, studentMode);
+        else if (input == "8") viewStudentInCourse(curCourse);
+        else{
+            changeCourseInfor(curCourse->data, convertToInt(input));
+            cout << "Complete!";
+            getch();
+        }
+        viewCourseInfor(curCourse, headCourse, curAccount, headAccount, headSchoolYear, studentMode);
     }
     else if (input == "x" && !studentMode){
         string cName = curCourse -> data.course_name;
         deleteCourse(curCourse, headCourse);
-        //FIX BUGS
         Semester *curSemester = headSchoolYear -> data.headSemester;
         bool FOUND = false;
         while (curSemester && !FOUND) {
@@ -269,28 +284,16 @@ void viewCourseInfor(Course* &curCourse, Course* &headCourse, Account* &curAccou
                 }
                 crCourse = crCourse -> next;
             }
-
             curSemester = curSemester -> next;
         }
-        //FIX BUGS
-        /** TEMP CLOSED
-        Account* delAccount = curCourse->data.hAccount;
-        while (delAccount){
-            if (delAccount->data.studentID == curAccount->data.studentID) break;
-            delAccount = delAccount->next;
-        }
-        deleteStudentInCourse(curCourse->data.hAccount, delAccount);
-        curCourse->data.nStudent--;
-        curAccount->data.nCourse--;
-        **/
     }
 }
-void viewCourseList(Course* &headCourse, Account* &curAccount, schoolYear* &headSchoolYear, bool studentMode){
+bool viewCourseList(Course* &headCourse, Account* &curAccount, Account* &headAccount, schoolYear* &headSchoolYear, bool studentMode){
     system("CLS");
     if (!headCourse){
         cout << "No course available!";
         getch();
-        return;
+        return true;
     }
     cout << "COURSES LIST\n";
     cout << "------------\n";
@@ -304,18 +307,14 @@ void viewCourseList(Course* &headCourse, Account* &curAccount, schoolYear* &head
     cout << "0. Back!\n";
     string input;
     cin >> input;
-    if (input == "0") return;
+    if (input == "0") return false;
 
     curCourse = headCourse;
     cnt = int(char(input[0])) - 48;
     while (--cnt) curCourse = curCourse->next;
-    viewCourseInfor(curCourse, headCourse, curAccount, headSchoolYear, studentMode);
-    viewCourseList(headCourse, curAccount, headSchoolYear, studentMode);
+    viewCourseInfor(curCourse, headCourse, curAccount, headAccount, headSchoolYear, studentMode);
+    return viewCourseList(headCourse, curAccount, headAccount, headSchoolYear, studentMode);
 }
-void exportListStudent(Course* headCourse, Account* &curAccount, schoolYear* &headSchoolYear){
-	
-	
-} 
 schoolYear* chooseSchoolYear(schoolYear *headSchoolYear){
     system("CLS");
     if (!headSchoolYear){
@@ -331,9 +330,11 @@ schoolYear* chooseSchoolYear(schoolYear *headSchoolYear){
         cout << i++ << ". " << curSchoolYear->data.startYear << " - " << curSchoolYear->data.endYear << endl;
         curSchoolYear = curSchoolYear->next;
     }
+    cout << "0. Back!\n";
     string input;
     cin >> input;
-    i = int(char(input[0])) - 48;
+    i = convertToInt(input);
+    if (i == 0) return NULL;
     curSchoolYear = headSchoolYear;
     while (--i) curSchoolYear = curSchoolYear->next;
     return curSchoolYear;
@@ -354,9 +355,11 @@ Semester* chooseSemester(Semester *headSemester){
         i++;
         curSemester = curSemester->next;
     }
+    cout << "0. Back!\n";
     string input;
     cin >> input;
-    i = int(char(input[0])) - 48;
+    i = convertToInt(input);
+    if (i == 0) return NULL;
     curSemester = headSemester;
     while (--i) curSemester = curSemester->next;
     return curSemester;
@@ -369,7 +372,6 @@ void staffProcess(Account* &curAccount, Account* &headAccount, Class* &headClass
     cout << "4. Create a new semester\n";
     cout << "5. View classes list\n";
     cout << "6. View courses list\n";
-    cout << "7. Export a list of students in a course\n";
     cout << "0. Back!\n";
     string input = "";
     cin >> input;
@@ -382,12 +384,24 @@ void staffProcess(Account* &curAccount, Account* &headAccount, Class* &headClass
     }
     else if (input == "5") viewClass(headClass);
     else if (input == "6"){
-        schoolYear* curSchoolYear = chooseSchoolYear(headSchoolYear);
-        Semester* curSemester = NULL;
-        if (curSchoolYear) curSemester = chooseSemester(headSchoolYear->data.headSemester);
-        if (curSemester) viewCourseList(curSemester->data.headCourse, curAccount, headSchoolYear, false);
+        while (true){
+            schoolYear* curSchoolYear = chooseSchoolYear(headSchoolYear);
+            Semester* curSemester = NULL;
+            if (!curSchoolYear) break;
+            while (true){
+                if (curSchoolYear) curSemester = chooseSemester(headSchoolYear->data.headSemester);
+                else break;
+                if (!curSemester) break;
+                while (true){
+                    bool checkBack = true;
+                    if (curSemester) checkBack = viewCourseList(curSemester->data.headCourse, curAccount, headAccount, headSchoolYear, false);
+                    else break;
+                    if (!checkBack) break;
+                }
+            }
+        }
     }
     else if (input == "0") return;
-//    updateSeverData(headSchoolYear);
+    updateAccountCourse(headSchoolYear);
     staffProcess(curAccount, headAccount, headClass, headSchoolYear);
 }
