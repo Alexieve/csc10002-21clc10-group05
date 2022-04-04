@@ -223,3 +223,127 @@ void updateSeverData(schoolYear* headSchoolYear){
     }
     fs.close();
 }
+void exportStudentsList(schoolYear* &headSchoolYear, dataCourse dataC){
+    fstream fs;
+    string courseID = dataC.id;
+    fs.open(courseID + ".csv", ios::out);
+    schoolYear* curSY = headSchoolYear;
+    bool Found = false;
+    while (curSY && !Found){
+        Semester* curS = curSY->data.headSemester;
+        while (curS && !Found){
+            Course* curC = curS->data.headCourse;
+            while (curC && !Found){
+                if (curC->data.id == dataC.id){
+                    Found = true;
+                    fs << curSY->data.startYear << ',' << curSY->data.endYear << '\n';
+                    fs << curS->data.num << ',' << dataC.id << '\n';
+                }
+                curC = curC->next;
+            }
+            curS = curS->next;
+        }
+        curSY = curSY->next;
+    }
+    int cnt = 0;
+    Account* curStudent = dataC.hAccount;
+    while (curStudent){
+        fs << ++cnt << ',' << curStudent->data.studentID << ','
+            << curStudent->data.firstName << ',' << curStudent->data.lastName << '\n';
+        curStudent = curStudent->next;
+    }
+    fs << 0;
+    fs.close();
+}
+void importStudentsList(Account* &headAccount, schoolYear* &headSchoolYear){
+    if (!headAccount) return;
+    system("CLS");
+    cout << "IMPORTING SCOREBOARD!!!\n";
+    cout << "-----------------------\n";
+    string courseID;
+    cout << "Enter the course ID you need to import: ";
+    cin >> courseID;
+    fstream fs;
+    fs.open(courseID + ".csv", ios::in);
+
+    string startSY, endSY;
+    getline(fs, startSY, ',');
+    getline(fs, endSY);
+
+    string numS;
+    getline(fs, numS, ',');
+    getline(fs, courseID);
+    dataAccount dataA;
+    while (true){
+        string No, studentID, firstName, lastName, strTotal, strFinal, strMidterm, strOther;
+        double totalMark, finalMark, midtermMark, otherMark;
+        getline(fs, No, ',');
+        if (No == "0") break;
+        getline(fs, studentID, ',');
+        getline(fs, firstName, ',');
+        getline(fs, lastName, ',');
+        getline(fs, strTotal, ',');
+        getline(fs, strFinal, ',');
+        getline(fs, strMidterm, ',');
+        getline(fs, strOther);
+        totalMark = convertToDouble(strTotal);
+        finalMark = convertToDouble(strFinal);
+        midtermMark = convertToDouble(strMidterm);
+        otherMark = convertToDouble(strOther);
+        Account* curAccount = headAccount;
+        bool Found = false;
+        while (curAccount && !Found){
+            Course* curCourse = curAccount->data.hCourse;
+            while (curCourse && !Found){
+                if (curCourse->data.id == courseID){
+                    curCourse->data.totalMark = totalMark;
+                    curCourse->data.finalMark = finalMark;
+                    curCourse->data.midtermMark = midtermMark;
+                    curCourse->data.otherMark = otherMark;
+                    Found = true;
+                }
+                curCourse = curCourse->next;
+            }
+            curAccount = curAccount->next;
+        }
+        Found = false;
+        schoolYear* curSY = headSchoolYear;
+        while (curSY && !Found){
+            Semester* curS = curSY->data.headSemester;
+            while (curS && !Found){
+                Course* curC = curS->data.headCourse;
+                while (curC && !Found){
+                    if (curC->data.id == courseID){
+                        curAccount = curC->data.hAccount;
+                        while (curAccount && !Found){
+                            if (curAccount->data.studentID == studentID){
+                                if (!curAccount->data.hCourse){
+                                    dataCourse dataC;
+                                    dataC.totalMark = totalMark;
+                                    dataC.finalMark = finalMark;
+                                    dataC.midtermMark = midtermMark;
+                                    dataC.otherMark = otherMark;
+                                    push_course(curAccount->data.hCourse, dataC);
+                                }
+                                else{
+                                    curAccount->data.hCourse->data.totalMark = totalMark;
+                                    curAccount->data.hCourse->data.finalMark = finalMark;
+                                    curAccount->data.hCourse->data.midtermMark = midtermMark;
+                                    curAccount->data.hCourse->data.otherMark = otherMark;
+                                }
+                                Found = true;
+                            }
+                            curAccount = curAccount->next;
+                        }
+                    }
+                    curC = curC->next;
+                }
+                curS = curS->next;
+            }
+            curSY = curSY->next;
+        }
+    }
+    cout << "IMPORT COMPLETE!\n";
+    getch();
+    fs.close();
+}

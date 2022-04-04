@@ -231,14 +231,17 @@ void viewCourseInfor(Course* &curCourse, Course* &headCourse, Account* &curAccou
     string sesTime[4] = {"7h30", "9h30", "13h30", "15h30"};
     cout << "6. Session 1: " << dataC.session1.day <<" - " << sesTime[int(char(dataC.session1.time[1]))-49] << endl;
     cout << "7. Session 2: " << dataC.session2.day <<" - " << sesTime[int(char(dataC.session2.time[1]))-49] << endl;
-    if (curAccount->data.accountType == "1") cout << "8. View students list\n";
+    if (curAccount->data.accountType == "1"){
+        cout << "8. View students list\n";
+        cout << "9. Export students list\n";
+    }
     cout << "0. Back!\n";
     if (!studentMode) cout << "---> DELETE THIS COURSE!!! (Press x)\n";
+    if (curAccount->data.accountType == "1") cout << "(Select the information you want to change by enter number)\n";
     string input;
     cin >> input;
     if (input == "0") return;
     if (curAccount->data.accountType == "1"){
-        cout << "(Select the information you want to change by enter number)\n";
         if (input == "x"){
             Account* delAccount = headAccount;
             while (delAccount){
@@ -256,6 +259,11 @@ void viewCourseInfor(Course* &curCourse, Course* &headCourse, Account* &curAccou
             return;
         }
         else if (input == "8") viewStudentInCourse(curCourse);
+        else if (input == "9"){
+            exportStudentsList(headSchoolYear, curCourse->data);
+            cout << "Export complete!";
+            getch();
+        }
         else{
             changeCourseInfor(curCourse->data, convertToInt(input));
             cout << "Complete!";
@@ -372,6 +380,7 @@ void staffProcess(Account* &curAccount, Account* &headAccount, Class* &headClass
     cout << "4. Create a new semester\n";
     cout << "5. View classes list\n";
     cout << "6. View courses list\n";
+    cout << "7. Import scoreboard\n";
     cout << "0. Back!\n";
     string input = "";
     cin >> input;
@@ -401,6 +410,7 @@ void staffProcess(Account* &curAccount, Account* &headAccount, Class* &headClass
             }
         }
     }
+    else if (input == "7") importStudentsList(headAccount, headSchoolYear);
     else if (input == "0") return;
     updateAccountCourse(headSchoolYear);
     staffProcess(curAccount, headAccount, headClass, headSchoolYear);

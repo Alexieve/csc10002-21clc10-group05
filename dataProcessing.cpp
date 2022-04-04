@@ -226,3 +226,19 @@ int convertToInt(string s){
         res = res * 10 + int(s[i]) - 48;
     return res;
 }
+double convertToDouble(string s){
+    double res = 0;
+    double point = 0;
+    for (int i = 0; i < s.length(); i++){
+        if (s[i] == '.'){
+            point = 1;
+            continue;
+        }
+        if (point == 0) res = res * 10 + int(s[i]) - 48;
+        else{
+            point *= 10;
+            res = res + double(int(s[i]) - 48) / point;
+        }
+    }
+    return res;
+}

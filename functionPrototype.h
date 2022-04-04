@@ -19,6 +19,7 @@ struct dataCourse {
     string startDate, endDate;
     string id, course_name, teacher_name, credits, days;
     int max_students = 50, nStudent = 0;
+    double totalMark = 0, finalMark = 0, midtermMark = 0, otherMark = 0;
     Session session1, session2;
     Account *hAccount = NULL;
 };
@@ -116,10 +117,13 @@ void addAccountForCourse(Course* &curCourse, dataAccount newData);
 void viewCourseInforStudent(Course* &curCourse, Account* &curAccount);
 void viewCourseListStudentToEnroll(Course* &headCourse, Account* &curAccount);
 int convertToInt(string s);
+double convertToDouble(string s);
 void deleteStudentInCourse(Account* &hAccount, Account* &curAccount);
-void deleteAllAccount(Account *headAccount);
-void deleteAllClass(Class *headClass);
-void deleteAllCourse(Course *headCourse);
-void deleteAllSemester(Class *headSemester, Course *headCourse);
-void deleteAllSY(schoolYear *headSchoolYear, Class *headSemester);
+void deleteAllAccount(Account* &headAccount);
+void deleteAllClass(Class* &headClass);
+void deleteAllCourse(Course* &headCourse);
+void deleteAllSemester(Semester &headSemester);
+void deleteAllSY(schoolYear* &headSchoolYear);
+void exportStudentsList(schoolYear* &headSchoolYear, dataCourse dataC);
+void importStudentsList(Account* &headAccount, schoolYear* &headSchoolYear);
 #endif  _FUNCTIONPROTOTYPE_H_
