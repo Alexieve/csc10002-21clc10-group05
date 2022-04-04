@@ -117,4 +117,9 @@ void viewCourseInforStudent(Course* &curCourse, Account* &curAccount);
 void viewCourseListStudentToEnroll(Course* &headCourse, Account* &curAccount);
 int convertToInt(string s);
 void deleteStudentInCourse(Account* &hAccount, Account* &curAccount);
+void deleteAllAccount(Account *headAccount);
+void deleteAllClass(Class *headClass);
+void deleteAllCourse(Course *headCourse);
+void deleteAllSemester(Class *headSemester, Course *headCourse);
+void deleteAllSY(schoolYear *headSchoolYear, Class *headSemester);
 #endif  _FUNCTIONPROTOTYPE_H_

@@ -22,6 +22,43 @@ bool start(Account* &headAccount, Class* &headClass, schoolYear*& headSchoolYear
         updateSeverData(headSchoolYear);
     }
 }
+void deleteAllAccount(Account *headAccount){
+	while(headAccount != NULL){
+		Account *Del = headAccount;
+		headAccount = headAccount->next;
+		delete Del;
+	}
+} 
+void deleteAllClass(Class *headClass){
+	while(headClass != NULL){
+		Account *Del = headClass;
+		headClass = headClass->next;
+		delete Del;
+	}
+} 
+void deleteAllCourse(Course *headCourse){
+	while(headCourse != NULL){
+		Account *Del = headCourse;
+		headCourse = headCourse->next;
+		delete Del;
+	}
+} 
+void deleteAllSemester(Class *headSemester, Course *headCourse){
+	while(headSemester != NULL){
+		deleteAllCourse(headCourse);
+		Account *Del = headSemester;
+		headSemester = headSemester->next;
+		delete Del;
+	}
+} 
+void deleteAllSY(schoolYear *headSchoolYear, Class *headSemester){
+	while(headSchoolYear != NULL){
+		deleteAllSemester(headSemester);
+		Account *Del = headSchoolYear;
+		headSchoolYear = headSchoolYear->next;
+		delete Del;
+	}
+} 
 int main(){
     Account* headAccount = NULL;
     Class* headClass = NULL;
@@ -33,8 +70,11 @@ int main(){
     while (start(headAccount, headClass, headSchoolYear));
 
     /// delete headAccount
+    deleteAllAccount(headAccount);
     /// delete headClass
+    deleteAllClass(headClass);
     /// delete headSchoolYear
+    deleteAllSY(headSchoolYear, headSemester);
 
     return 0;
 }
