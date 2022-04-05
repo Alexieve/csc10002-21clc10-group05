@@ -49,24 +49,36 @@ void loadAccountCourse(Account* &hAccount, schoolYear* &hSchoolYear) {
             string curCourse, checkC = "1";
             while (checkC == "1"){
                 getline(fs, curCourse, ',');
+                getline(fs, checkC);
                 Course *curC = curS->data.headCourse;
                 while (curC){
                     if (curC->data.id == curCourse) break;
                     curC = curC->next;
                 }
-
                 for (int i = 1; i <= curC->data.nStudent; i++){
-                    string studentID;
+                    string studentID, strTotal, strFinal, strMidterm, strOther;
                     getline(fs, studentID, ',');
+                    getline(fs, strTotal, ',');
+                    getline(fs, strFinal, ',');
+                    getline(fs, strMidterm, ',');
+                    getline(fs, strOther);
+                    dataCourse dataC = curC->data;
+                    dataC.totalMark = convertToDouble(strTotal);
+                    dataC.finalMark = convertToDouble(strFinal);
+                    dataC.midtermMark = convertToDouble(strMidterm);
+                    dataC.otherMark = convertToDouble(strOther);
                     Account *curStudent = hAccount;
                     while (curStudent){
                         if (curStudent->data.studentID == studentID) break;
                         curStudent = curStudent->next;
                     }
-                    push_course(curStudent->data.hCourse, curC->data);
-                    pushBackAccount(curC->data.hAccount, curStudent->data);
+                    Account* accountForCourse = curStudent;
+                    if (accountForCourse->data.hCourse)
+                        deleteAllCourse(accountForCourse->data.hCourse);
+                    push_course(accountForCourse->data.hCourse, dataC);
+                    push_course(curStudent->data.hCourse, dataC);
+                    pushBackAccount(curC->data.hAccount, accountForCourse->data);
                 }
-                getline(fs, checkC);
             }
         }
     }
@@ -158,16 +170,26 @@ void updateAccountCourse(schoolYear* hSchoolYear){
             if (curS->next) fs << 1 << '\n';
             else fs << 0 << '\n';
             Course *curC = dataS.headCourse;
+            bool downLineC = false;
             while (curC){
+                if (downLineC)  fs << '\n';
+                else downLineC = true;
                 dataCourse dataC = curC->data;
                 fs << dataC.id << ',';
+                if (curC->next) fs << 1;
+                else fs << 0;
                 Account *curStudent = dataC.hAccount;
+                if (curStudent) fs << '\n';
+                bool downLineS = false;
                 while (curStudent){
+                    if (downLineS) fs << '\n';
+                    else downLineS = true;
                     fs << curStudent->data.studentID << ',';
+                    dataCourse dataMark = curStudent->data.hCourse->data;
+                    fs << dataMark.totalMark << ',' << dataMark.finalMark << ','
+                       << dataMark.midtermMark << ',' << dataMark.otherMark;
                     curStudent = curStudent->next;
                 }
-                if (curC->next) fs << 1 << '\n';
-                else fs << 0;
                 curC = curC->next;
             }
             curS = curS->next;

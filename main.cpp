@@ -24,7 +24,11 @@ bool start(Account* &headAccount, Class* &headClass, schoolYear*& headSchoolYear
 }
 void deleteAllAccount(Account* &headAccount){
 	while(headAccount != NULL){
-        if (headAccount->data.hCourse) deleteAllCourse(headAccount->data.hCourse);
+        while(headAccount->data.hCourse){
+            Course *Del = headAccount->data.hCourse;
+            headAccount->data.hCourse = headAccount->data.hCourse->next;
+            delete Del;
+        }
 		Account *Del = headAccount;
 		headAccount = headAccount->next;
 		delete Del;
@@ -39,7 +43,11 @@ void deleteAllClass(Class* &headClass){
 }
 void deleteAllCourse(Course* &headCourse){
 	while(headCourse != NULL){
-        if (headCourse->data.hAccount) deleteAllAccount(headCourse->data.hAccount);
+        while(headCourse->data.hAccount){
+            Account *Del = headCourse->data.hAccount;
+            headCourse->data.hAccount = headCourse->data.hAccount->next;
+            delete Del;
+        }
 		Course *Del = headCourse;
 		headCourse = headCourse->next;
 		delete Del;
