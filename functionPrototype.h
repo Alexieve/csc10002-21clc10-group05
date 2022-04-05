@@ -7,6 +7,7 @@
 #include <conio.h>
 #include <cstring>
 #include <ctime>
+#include <iomanip>
 using namespace std;
 
 struct dataAccount;
@@ -126,4 +127,12 @@ void deleteAllSemester(Semester &headSemester);
 void deleteAllSY(schoolYear* &headSchoolYear);
 void exportStudentsList(schoolYear* &headSchoolYear, dataCourse dataC);
 void importStudentsList(Account* &headAccount, schoolYear* &headSchoolYear);
+void viewScoreBoardInCourse_A(Course* &curCourse);
+void viewScoreBoardInCourse_C(Course* &headCourse);
+void viewScoreBoardInCourse_S(Semester* &headSemester);
+void viewScoreBoardInCourse_SY(schoolYear* &headSchoolYear);
+double caculateFinalMark(Account* curAccount);
+void viewScoreBoardInClass_Student(Class* &curClass);
+void viewScoreBoardInClass_Class(Class* &headClass);
+void viewScoreBoardStudent(Account* curAccount);
 #endif  _FUNCTIONPROTOTYPE_H_

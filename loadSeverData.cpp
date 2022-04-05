@@ -72,10 +72,17 @@ void loadAccountCourse(Account* &hAccount, schoolYear* &hSchoolYear) {
                         if (curStudent->data.studentID == studentID) break;
                         curStudent = curStudent->next;
                     }
+
                     Account* accountForCourse = curStudent;
-                    if (accountForCourse->data.hCourse)
-                        deleteAllCourse(accountForCourse->data.hCourse);
-                    push_course(accountForCourse->data.hCourse, dataC);
+//                    if (accountForCourse->data.hCourse->data.hAccount)
+//                        deleteAllAccount(accountForCourse->data.hCourse->data.hAccount);
+//                    Course* curCourseDel = accountForCourse->data.hCourse;
+//                    while (curCourseDel){
+//                        Course* del = curCourseDel;
+//                        curCourseDel = curCourseDel->next;
+//                        delete del;
+//                    }
+//                    push_course(accountForCourse->data.hCourse, dataC);
                     push_course(curStudent->data.hCourse, dataC);
                     pushBackAccount(curC->data.hAccount, accountForCourse->data);
                 }

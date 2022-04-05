@@ -74,9 +74,10 @@ int main(){
     Class* headClass = NULL;
     schoolYear* headSchoolYear = NULL;
     loadAccount(headAccount);
-    loadClass(headClass, headAccount);
+//    loadClass(headClass, headAccount);
     loadSeverData(headSchoolYear);
     loadAccountCourse(headAccount, headSchoolYear);
+    loadClass(headClass, headAccount);
     while (start(headAccount, headClass, headSchoolYear));
     deleteAllAccount(headAccount);
     deleteAllClass(headClass);

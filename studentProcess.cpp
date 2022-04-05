@@ -100,12 +100,41 @@ void enrollCourse(Account* &curAccount, schoolYear* &headSchoolYear){
     }
     viewCourseListStudentToEnroll(curS->data.headCourse, curAccount);
 }
+void viewScoreBoardStudent(Account* curAccount){
+    Course* headCourse = curAccount->data.hCourse;
+    system("CLS");
+    if (!headCourse){
+        cout << "You have not registered for any courses yet";
+        getch();
+        return;
+    }
+    cout << "SCORE BOARD\n";
+    cout << "-----------\n";
+    double finalMark = caculateFinalMark(curAccount);
+    double GPA = finalMark / 2.5;
+    cout << "Final Mark: " << finalMark << endl;
+    cout << "GPA: " << GPA << endl;
+    cout << "| Course ID |                Course Name                | Total Mark | Final Mark | Midterm Mark | Other Mark |\n";
+    Course* curCourse = headCourse;
+    while (curCourse){
+        dataCourse dataC = curCourse->data;
+        cout << "|" << setw(11) << dataC.id
+        << "|" << setw(43)  << dataC.course_name
+        << "|" << setw(12) << dataC.totalMark
+        << "|" << setw(12) << dataC.finalMark
+        << "|" << setw(14) << dataC.midtermMark
+        << "|" << setw(12) << dataC.otherMark << "|\n";
+        curCourse = curCourse->next;
+    }
+    getch();
+}
 void studentProcess(Account* &curAccount, Account* &headAccount, Class* &headClass, schoolYear* &headSchoolYear){
     system("CLS");
     cout << "1. Enroll in a course\n";
     cout << "2. View list of enrolled courses\n";
     cout << "3. View list of classes\n";
     cout << "4. View list of courses\n";
+    cout << "5. View score board\n";
     cout << "0. Back!\n";
     string input = "";
     cin >> input;
@@ -118,6 +147,7 @@ void studentProcess(Account* &curAccount, Account* &headAccount, Class* &headCla
         if (curSchoolYear) curSemester = chooseSemester(headSchoolYear->data.headSemester);
         if (curSemester) viewCourseList(curSemester->data.headCourse, curAccount, headAccount, headSchoolYear, true);
     }
+    else if (input == "5") viewScoreBoardStudent(curAccount);
     else if (input == "0") return;
     updateAccountCourse(headSchoolYear);
     studentProcess(curAccount, headAccount, headClass, headSchoolYear);
