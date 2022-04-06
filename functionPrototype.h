@@ -8,6 +8,7 @@
 #include <cstring>
 #include <ctime>
 #include <iomanip>
+#include <windows.h> 
 using namespace std;
 
 struct dataAccount;
@@ -135,4 +136,5 @@ double caculateFinalMark(Account* curAccount);
 void viewScoreBoardInClass_Student(Class* &curClass);
 void viewScoreBoardInClass_Class(Class* &headClass);
 void viewScoreBoardStudent(Account* curAccount);
+void TextColor(int x);
 #endif  _FUNCTIONPROTOTYPE_H_
