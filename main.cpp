@@ -1,6 +1,16 @@
 #include "functionPrototype.h"
 
+void logo(){
+	cout << "      _ _ _     _ _ _     _ _ _   _ _ _ _ _   _ _ _      		" << endl;
+	cout << "    /	   /  /      /  /            /      /      /    /		" << endl;
+	cout << "   /_ _ _ /  /	    /  /            /      /_ _ _ /    /		" << endl;
+	cout << "  /         /      /  /            /	  /      /    /		" << endl;
+	cout << " /         /      /  /            /      /      /    /			" << endl;
+	cout << "/         /_ _ _ /  /     	 /      /      /    /_ _ _ _ 	" << endl;
+	cout << endl;	
+}
 bool start(Account* &headAccount, Class* &headClass, schoolYear*& headSchoolYear){
+	logo();
     Account* curAccount;
     while (!login(headAccount, curAccount)); // login into program and get account data
     while (true){

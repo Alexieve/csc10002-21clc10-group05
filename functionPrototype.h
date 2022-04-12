@@ -137,4 +137,5 @@ void viewScoreBoardInClass_Student(Class* &curClass);
 void viewScoreBoardInClass_Class(Class* &headClass);
 void viewScoreBoardStudent(Account* curAccount);
 void TextColor(int x);
+void logo();
 #endif  _FUNCTIONPROTOTYPE_H_
