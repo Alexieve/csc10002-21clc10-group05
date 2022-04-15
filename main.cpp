@@ -1,20 +1,19 @@
 #include "functionPrototype.h"
-
 void logo(){
-	cout << "      _ _ _     _ _ _     _ _ _   _ _ _ _ _   _ _ _      		" << endl;
-	cout << "    /	   /  /      /  /            /      /      /    /		" << endl;
-	cout << "   /_ _ _ /  /	    /  /            /      /_ _ _ /    /		" << endl;
-	cout << "  /         /      /  /            /	  /      /    /		" << endl;
-	cout << " /         /      /  /            /      /      /    /			" << endl;
-	cout << "/         /_ _ _ /  /     	 /      /      /    /_ _ _ _ 	" << endl;
-	cout << endl;	
+	cout << "      _ _ _    _ _ _ _     _ _ _   _ _ _ _ _   _ _ _ _    " << endl;
+	cout << "    /	   /  /       /  /      /      /      /      /  / " << endl;
+	cout << "   /_ _ _ /  /	     /  / _ _ _/      /      /_ _ _ /  /  " << endl;
+	cout << "  /         /       /  /  \\	     /      /      /  /   " << endl;
+	cout << " /         /       /  /    \\        /      /      /  /    " << endl;
+	cout << "/         /_ _ _ _/  /      \\      /      /      /  /_ _ _ _" << endl;
+	cout << endl;
 }
 bool start(Account* &headAccount, Class* &headClass, schoolYear*& headSchoolYear){
-	logo();
     Account* curAccount;
     while (!login(headAccount, curAccount)); // login into program and get account data
     while (true){
         system("CLS");
+        logo();
         cout << "1. Manage account\n";
         cout << "2. Main page\n";
         cout << "3. Log out\n";
@@ -28,6 +27,11 @@ bool start(Account* &headAccount, Class* &headClass, schoolYear*& headSchoolYear
         }
         else if (input == "3") return true;
         else if (input == "0") return false;
+        else{
+            cout << "Wrong input, try again!";
+            getch();
+            continue;
+        }
         updateAccountData(headAccount); // update account data after run program
         updateSeverData(headSchoolYear);
     }
@@ -84,7 +88,6 @@ int main(){
     Class* headClass = NULL;
     schoolYear* headSchoolYear = NULL;
     loadAccount(headAccount);
-//    loadClass(headClass, headAccount);
     loadSeverData(headSchoolYear);
     loadAccountCourse(headAccount, headSchoolYear);
     loadClass(headClass, headAccount);

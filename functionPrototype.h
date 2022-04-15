@@ -8,7 +8,6 @@
 #include <cstring>
 #include <ctime>
 #include <iomanip>
-#include <windows.h> 
 using namespace std;
 
 struct dataAccount;
@@ -132,10 +131,12 @@ void viewScoreBoardInCourse_A(Course* &curCourse);
 void viewScoreBoardInCourse_C(Course* &headCourse);
 void viewScoreBoardInCourse_S(Semester* &headSemester);
 void viewScoreBoardInCourse_SY(schoolYear* &headSchoolYear);
-double caculateFinalMark(Account* curAccount);
-void viewScoreBoardInClass_Student(Class* &curClass);
-void viewScoreBoardInClass_Class(Class* &headClass);
-void viewScoreBoardStudent(Account* curAccount);
-void TextColor(int x);
+double calculateFinalMark(Account* curAccount);
+double calculateOverallGPA(Account* curAccount, schoolYear* curSchoolYear);
+void viewScoreBoardInClass_Student(Class* &curClass, schoolYear* curSchoolYear);
+void viewScoreBoardStudent(Account* curAccount, schoolYear* curSchoolYear);
+void createNewSY(schoolYear* &headSchoolYear);
+void viewCourseList_Staff(schoolYear* &headSchoolYear, Account* &headAccount, Account* &curAccount);
+void viewCourseList_Student(schoolYear* &headSchoolYear, Account* &headAccount, Account* &curAccount);
 void logo();
 #endif  _FUNCTIONPROTOTYPE_H_

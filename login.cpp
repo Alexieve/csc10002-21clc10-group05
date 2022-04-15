@@ -8,6 +8,7 @@ bool checkLogin(Account* curAccount, string username0, string password0){
 }
 bool login(Account* head, Account* &curAccount){
     system("CLS");
+    logo();
     string username0, password0;
     cout << "Login!\n";
     cout << "Username: ";

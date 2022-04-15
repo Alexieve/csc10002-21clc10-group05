@@ -10,6 +10,7 @@ void dataAccount::showProfile(){
     cout << "Gender: " << gender << endl;
     cout << "Date of birth: " << dob << endl;
     if (accountType == "2") cout << "Class: " << _class << endl;
+    getch();
 }
 void dataAccount::changePassword(){
     string confirmPassword = "";
@@ -26,6 +27,7 @@ void dataAccount::changePassword(){
 }
 void manageAccount(dataAccount &account){
     system("CLS");
+    logo();
     cout << "1. Profile\n";
     cout << "2. Change password\n";
     cout << "0. Back!\n";
@@ -34,8 +36,12 @@ void manageAccount(dataAccount &account){
     if (input == "1") account.showProfile();
     else if (input == "2") account.changePassword();
     else if (input == "0") return;
-    getch();
-    manageAccount(account);
+    else{
+        cout << "Wrong input, try again!";
+        getch();
+        manageAccount(account);
+        return;
+    }
 }
 void updateAccountData(Account* headAccount){
     fstream fs;

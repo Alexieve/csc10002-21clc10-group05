@@ -73,6 +73,12 @@ void viewClass(Class* headClass){
     cout << "0. Back!\n";
     string input;
     cin >> input;
+    if (input[0] < '0' || input[0] > cnt + '0'){
+        cout << "Wrong input, try again!";
+        getch();
+        viewClass(headClass);
+        return;
+    }
     if (input == "0") return;
     curClass = headClass;
     cnt = convertToInt(input);
@@ -240,6 +246,12 @@ void viewCourseInfor(Course* &curCourse, Course* &headCourse, Account* &curAccou
     if (curAccount->data.accountType == "1") cout << "(Select the information you want to change by enter number)\n";
     string input;
     cin >> input;
+    if (input[0] != 'x' && (input[0] < '0' || input[0] > '9')){
+        cout << "Wrong input, try again!";
+        getch();
+        viewCourseInfor(curCourse, headCourse, curAccount, headAccount, headSchoolYear, studentMode);
+        return;
+    }
     if (input == "0") return;
     if (curAccount->data.accountType == "1"){
         if (input == "x"){
@@ -315,6 +327,11 @@ bool viewCourseList(Course* &headCourse, Account* &curAccount, Account* &headAcc
     cout << "0. Back!\n";
     string input;
     cin >> input;
+    if (input[0] < '0' || input[0] > cnt + '0'){
+        cout << "Wrong input, try again!";
+        getch();
+        return viewCourseList(headCourse, curAccount, headAccount, headSchoolYear, studentMode);
+    }
     if (input == "0") return false;
 
     curCourse = headCourse;
@@ -341,6 +358,11 @@ schoolYear* chooseSchoolYear(schoolYear *headSchoolYear){
     cout << "0. Back!\n";
     string input;
     cin >> input;
+    if (input[0] < '0' || input[0] > i + '0'){
+        cout << "Wrong input, try again!";
+        getch();
+        return chooseSchoolYear(headSchoolYear);
+    }
     i = convertToInt(input);
     if (i == 0) return NULL;
     curSchoolYear = headSchoolYear;
@@ -366,6 +388,11 @@ Semester* chooseSemester(Semester *headSemester){
     cout << "0. Back!\n";
     string input;
     cin >> input;
+    if (input[0] < '0' || input[0] > i + '0'){
+        cout << "Wrong input, try again!";
+        getch();
+        return chooseSemester(headSemester);
+    }
     i = convertToInt(input);
     if (i == 0) return NULL;
     curSemester = headSemester;
@@ -425,6 +452,12 @@ void viewScoreBoardInCourse_C(Course* &headCourse){
     cout << "0. Back!\n";
     string input;
     cin >> input;
+    if (input[0] < '0' || input[0] > cnt + '0'){
+        cout << "Wrong input, try again!";
+        getch();
+        viewScoreBoardInCourse_C(headCourse);
+        return;
+    }
     if (input == "0") return;
 
     curCourse = headCourse;
@@ -452,6 +485,12 @@ void viewScoreBoardInCourse_S(Semester* &headSemester){
     cout << "0. Back!\n";
     string input;
     cin >> input;
+    if (input[0] < '0' || input[0] > i + '0'){
+        cout << "Wrong input, try again!";
+        getch();
+        viewScoreBoardInCourse_S(headSemester);
+        return;
+    }
     i = convertToInt(input);
     if (i == 0) return;
     curSemester = headSemester;
@@ -477,6 +516,12 @@ void viewScoreBoardInCourse_SY(schoolYear* &headSchoolYear){
     cout << "0. Back!\n";
     string input;
     cin >> input;
+    if (input[0] < '0' || input[0] > i + '0'){
+        cout << "Wrong input, try again!";
+        getch();
+        viewScoreBoardInCourse_SY(headSchoolYear);
+        return;
+    }
     i = convertToInt(input);
     if (i == 0) return;
     curSchoolYear = headSchoolYear;
@@ -484,7 +529,7 @@ void viewScoreBoardInCourse_SY(schoolYear* &headSchoolYear){
     viewScoreBoardInCourse_S(curSchoolYear->data.headSemester);
     viewScoreBoardInCourse_SY(headSchoolYear);
 }
-double caculateFinalMark(Account* curAccount){
+double calculateFinalMark(Account* curAccount){
     double res = 0;
     int cnt = 0;
     Course* curCourse = curAccount->data.hCourse;
@@ -495,7 +540,33 @@ double caculateFinalMark(Account* curAccount){
     }
     return res / double(cnt);
 }
-void viewScoreBoardInClass_Student(Class* &curClass){
+double calculateOverallGPA(Account* curAccount, schoolYear* curSchoolYear){
+    double resOverall = 0;
+    Semester* curS =curSchoolYear->data.headSemester;
+    int cntS = 0;
+    while (curS){
+        Course* curC = curS->data.headCourse;
+        double resS = 0;
+        int cntC = 0;
+        while (curC){
+            Account* curStudent = curC->data.hAccount;
+            while (curStudent){
+                if (curStudent->data.studentID == curAccount->data.studentID){
+                    resS += curStudent->data.hCourse->data.totalMark;
+                    cntC++;
+                }
+                curStudent = curStudent->next;
+            }
+            curC = curC->next;
+        }
+        if (!cntC) cntC++;
+        resOverall += resS / double(cntC);
+        cntS++;
+        curS = curS->next;
+    }
+    return resOverall / double(cntS);
+}
+void viewScoreBoardInClass_Student(Class* &curClass, schoolYear* curSchoolYear){
     system("CLS");
     cout << curClass->data.className << " STUDENTS LIST\n";
     cout << "------------------------\n";
@@ -505,24 +576,33 @@ void viewScoreBoardInClass_Student(Class* &curClass){
         getch();
         return;
     }
+    time_t now = time(NULL);
+    tm *const Date = localtime(&now);
+    string yearNow = to_string(1900 + Date->tm_year);
+    while (curSchoolYear){
+        if (curSchoolYear->data.startYear <= yearNow && yearNow <= curSchoolYear->data.endYear)
+            break;
+        curSchoolYear = curSchoolYear->next;
+    }
     cout << "| No | Student ID |   Full Name   | Final Mark | GPA | Overall GPA |\n";
     int cnt = 0;
     Account* curAccount = headStudent;
     while (curAccount){
         dataAccount dataA = curAccount->data;
-        double finalMark = caculateFinalMark(curAccount);
+        double finalMark = calculateFinalMark(curAccount);
+        double overallGPA = calculateOverallGPA(curAccount, curSchoolYear) / 2.5;
         double GPA = finalMark / 2.5;
         cout << "|" << setw(4) << ++cnt
         << "|" << setw(12) << dataA.studentID
         << "|" << setw(15)  << dataA.firstName + ' ' + dataA.lastName
         << "|" << setw(12) << finalMark
         << "|" << setw(5) << GPA
-        << "|" << setw(13) << "NONE" << "|\n";
+        << "|" << setw(13) << overallGPA << "|\n";
         curAccount = curAccount->next;
     }
     getch();
 }
-void viewScoreBoardInClass_Class(Class* &headClass){
+void viewScoreBoardInClass_Class(Class* &headClass, schoolYear* curSchoolYear){
     system("CLS");
     if (!headClass){
         cout << "No class available!";
@@ -541,15 +621,44 @@ void viewScoreBoardInClass_Class(Class* &headClass){
     cout << "0. Back!\n";
     string input;
     cin >> input;
+    if (input[0] < '0' || input[0] > cnt + '0'){
+        cout << "Wrong input, try again!";
+        getch();
+        viewScoreBoardInClass_Class(headClass, curSchoolYear);
+        return;
+    }
     if (input == "0") return;
     curClass = headClass;
     cnt = convertToInt(input);
     while (--cnt) curClass = curClass->next;
-    viewScoreBoardInClass_Student(curClass);
-    viewScoreBoardInClass_Class(headClass);
+    viewScoreBoardInClass_Student(curClass, curSchoolYear);
+    viewScoreBoardInClass_Class(headClass, curSchoolYear);
+}
+void createNewSY(schoolYear* &headSchoolYear){
+    schoolYear* curSchoolYear = chooseSchoolYear(headSchoolYear);
+    if (curSchoolYear) create_Semester(curSchoolYear->data.headSemester);
+}
+void viewCourseList_Staff(schoolYear* &headSchoolYear, Account* &headAccount, Account* &curAccount){
+    while (true){
+        schoolYear* curSchoolYear = chooseSchoolYear(headSchoolYear);
+        Semester* curSemester = NULL;
+        if (!curSchoolYear) break;
+        while (true){
+            if (curSchoolYear) curSemester = chooseSemester(headSchoolYear->data.headSemester);
+            else break;
+            if (!curSemester) break;
+            while (true){
+                bool checkBack = true;
+                if (curSemester) checkBack = viewCourseList(curSemester->data.headCourse, curAccount, headAccount, headSchoolYear, false);
+                else break;
+                if (!checkBack) break;
+            }
+        }
+    }
 }
 void staffProcess(Account* &curAccount, Account* &headAccount, Class* &headClass, schoolYear* &headSchoolYear){
     system("CLS");
+    logo();
     cout << "1. Create a new school year\n";
     cout << "2. Create new class\n";
     cout << "3. Add new 1st year students to 1st-year classes\n";
@@ -565,33 +674,19 @@ void staffProcess(Account* &curAccount, Account* &headAccount, Class* &headClass
     if (input == "1") creatSchoolYear(headSchoolYear);
     else if (input == "2") createClass(headClass);
     else if (input == "3") add1stStudents(headAccount, headClass);
-    else if (input == "4"){
-        schoolYear* curSchoolYear = chooseSchoolYear(headSchoolYear);
-        if (curSchoolYear) create_Semester(curSchoolYear->data.headSemester);
-    }
+    else if (input == "4") createNewSY(headSchoolYear);
     else if (input == "5") viewClass(headClass);
-    else if (input == "6"){
-        while (true){
-            schoolYear* curSchoolYear = chooseSchoolYear(headSchoolYear);
-            Semester* curSemester = NULL;
-            if (!curSchoolYear) break;
-            while (true){
-                if (curSchoolYear) curSemester = chooseSemester(headSchoolYear->data.headSemester);
-                else break;
-                if (!curSemester) break;
-                while (true){
-                    bool checkBack = true;
-                    if (curSemester) checkBack = viewCourseList(curSemester->data.headCourse, curAccount, headAccount, headSchoolYear, false);
-                    else break;
-                    if (!checkBack) break;
-                }
-            }
-        }
-    }
+    else if (input == "6") viewCourseList_Staff(headSchoolYear, headAccount, curAccount);
     else if (input == "7") importStudentsList(headAccount, headSchoolYear);
     else if (input == "8") viewScoreBoardInCourse_SY(headSchoolYear);
-    else if (input == "9") viewScoreBoardInClass_Class(headClass);
+    else if (input == "9") viewScoreBoardInClass_Class(headClass, headSchoolYear);
     else if (input == "0") return;
+    else{
+        cout << "Wrong input, try again!";
+        getch();
+        staffProcess(curAccount, headAccount, headClass, headSchoolYear);
+        return;
+    }
     updateAccountCourse(headSchoolYear);
     staffProcess(curAccount, headAccount, headClass, headSchoolYear);
 }
