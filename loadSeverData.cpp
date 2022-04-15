@@ -17,9 +17,8 @@ void loadAccount(Account* &head){
         getline(fs, data.dob, ',');
         getline(fs, data._class, ',');
         string nCourse;
-        getline(fs, nCourse, ',');
+        getline(fs, nCourse);
         data.nCourse = convertToInt(nCourse);
-        getline(fs, data.title);
         pushBackAccount(head, data);
     }
     fs.close();
@@ -55,7 +54,7 @@ void loadAccountCourse(Account* &hAccount, schoolYear* &hSchoolYear) {
                     if (curC->data.id == curCourse) break;
                     curC = curC->next;
                 }
-                for (int i = 1; i <= curC->data.nStudent; i++){
+                if (curC) for (int i = 1; i <= curC->data.nStudent; i++){
                     string studentID, strTotal, strFinal, strMidterm, strOther;
                     getline(fs, studentID, ',');
                     getline(fs, strTotal, ',');
@@ -72,17 +71,7 @@ void loadAccountCourse(Account* &hAccount, schoolYear* &hSchoolYear) {
                         if (curStudent->data.studentID == studentID) break;
                         curStudent = curStudent->next;
                     }
-
                     Account* accountForCourse = curStudent;
-//                    if (accountForCourse->data.hCourse->data.hAccount)
-//                        deleteAllAccount(accountForCourse->data.hCourse->data.hAccount);
-//                    Course* curCourseDel = accountForCourse->data.hCourse;
-//                    while (curCourseDel){
-//                        Course* del = curCourseDel;
-//                        curCourseDel = curCourseDel->next;
-//                        delete del;
-//                    }
-//                    push_course(accountForCourse->data.hCourse, dataC);
                     push_course(curStudent->data.hCourse, dataC);
                     pushBackAccount(curC->data.hAccount, accountForCourse->data);
                 }

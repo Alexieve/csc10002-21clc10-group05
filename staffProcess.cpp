@@ -47,8 +47,9 @@ void viewStudentInClass(Class* curClass){
         getch();
         return;
     }
+    int cnt = 0;
     while (headStudent){
-        cout << headStudent->data.studentID << ". "
+        cout << ++cnt << ". " << headStudent->data.studentID << " - "
         << headStudent->data.lastName << " " << headStudent->data.firstName << endl;
         headStudent = headStudent->next;
     }
@@ -595,9 +596,9 @@ void viewScoreBoardInClass_Student(Class* &curClass, schoolYear* curSchoolYear){
         cout << "|" << setw(4) << ++cnt
         << "|" << setw(12) << dataA.studentID
         << "|" << setw(15)  << dataA.firstName + ' ' + dataA.lastName
-        << "|" << setw(12) << finalMark
-        << "|" << setw(5) << GPA
-        << "|" << setw(13) << overallGPA << "|\n";
+        << "|" << setw(12) << setprecision(3) <<  finalMark
+        << "|" << setw(5) << setprecision(3) <<  GPA
+        << "|" << setw(13) << setprecision(3) <<  overallGPA << "|\n";
         curAccount = curAccount->next;
     }
     getch();
@@ -658,7 +659,6 @@ void viewCourseList_Staff(schoolYear* &headSchoolYear, Account* &headAccount, Ac
 }
 void staffProcess(Account* &curAccount, Account* &headAccount, Class* &headClass, schoolYear* &headSchoolYear){
     system("CLS");
-    logo();
     cout << "1. Create a new school year\n";
     cout << "2. Create new class\n";
     cout << "3. Add new 1st year students to 1st-year classes\n";
