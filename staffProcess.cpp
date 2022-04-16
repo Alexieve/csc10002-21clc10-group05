@@ -103,7 +103,6 @@ void add1stStudents(Account* headAccount, Class* &headClass){
         data.username = data.studentID;
         data.password = "a";
         data.accountType = "2";
-        data.title = "NULL";
         pushBackAccount(headAccount, data);
     }
     fs.close();

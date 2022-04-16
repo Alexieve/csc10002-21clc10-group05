@@ -4,12 +4,14 @@ void dataAccount::showProfile(){
     system("CLS");
     cout << "ACCOUNT PROFILE\n";
     cout << "---------------\n";
-    cout << "User ID: " << studentID << endl;
+    cout << "User ID: " << userID << endl;
+    if (accountType == "2") cout << "Student ID: " << studentID << endl;
     cout << "Social ID: " << socialId << endl;
     cout << "Name: " << lastName << " " << firstName << endl;
     cout << "Gender: " << gender << endl;
     cout << "Date of birth: " << dob << endl;
     if (accountType == "2") cout << "Class: " << _class << endl;
+    getch();
 }
 void dataAccount::changePassword(){
     string confirmPassword = "";
@@ -23,6 +25,7 @@ void dataAccount::changePassword(){
     cout << "Enter new password: ";
     cin >> password;
     cout << "Complete!";
+    getch();
 }
 void manageAccount(dataAccount &account){
     system("CLS");

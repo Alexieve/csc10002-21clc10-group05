@@ -31,7 +31,7 @@ struct Course {
 struct dataAccount{
     string username, password, accountType;
     string userID, studentID, socialId;
-    string firstName, lastName, gender, dob, _class, title;
+    string firstName, lastName, gender, dob, _class;
     int nCourse = 0;
     Course *hCourse = NULL;
 
