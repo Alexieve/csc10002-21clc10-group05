@@ -8,6 +8,7 @@
 #include <cstring>
 #include <ctime>
 #include <iomanip>
+#include <windows.h>
 using namespace std;
 
 struct dataAccount;
@@ -31,7 +32,7 @@ struct Course {
 struct dataAccount{
     string username, password, accountType;
     string userID, studentID, socialId;
-    string firstName, lastName, gender, dob, _class;
+    string firstName, lastName, gender, dob, _class, title;
     int nCourse = 0;
     Course *hCourse = NULL;
 
@@ -139,4 +140,5 @@ void createNewSY(schoolYear* &headSchoolYear);
 void viewCourseList_Staff(schoolYear* &headSchoolYear, Account* &headAccount, Account* &curAccount);
 void viewCourseList_Student(schoolYear* &headSchoolYear, Account* &headAccount, Account* &curAccount);
 void logo();
+void TextColor(int x);
 #endif  _FUNCTIONPROTOTYPE_H_

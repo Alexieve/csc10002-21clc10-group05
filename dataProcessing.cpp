@@ -242,3 +242,8 @@ double convertToDouble(string s){
     }
     return res;
 }
+void TextColor(int x){
+	HANDLE mau;
+	mau = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(mau,x);
+}
