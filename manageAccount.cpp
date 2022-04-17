@@ -26,6 +26,7 @@ void dataAccount::changePassword(){
     cout << "Enter new password: ";
     cin >> password;
     cout << "Complete!";
+    getch();
 }
 void manageAccount(dataAccount &account){
     system("CLS");

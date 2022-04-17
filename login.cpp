@@ -7,6 +7,7 @@ bool checkLogin(Account* curAccount, string username0, string password0){
     return false;
 }
 bool login(Account* head, Account* &curAccount){
+	TextColor(15);
     system("CLS");
     logo();
     string username0, password0;

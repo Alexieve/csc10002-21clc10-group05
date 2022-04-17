@@ -21,6 +21,7 @@ void deleteStudentInCourse(Account* &hAccount, Account* &curAccount){
     delete curAccount;
 }
 void viewCourseInforStudent(Course* &curCourse, Account* &curAccount){
+	TextColor(11);
     system("CLS");
     cout << "COURSES INFORMATION\n";
     cout << "-------------------\n";
@@ -39,6 +40,7 @@ void viewCourseInforStudent(Course* &curCourse, Account* &curAccount){
     cout << "---> ENROLL THIS COURSE!!! (Press x)\n";
     string input;
     cin >> input;
+    TextColor(15);
     if (input[0] < '0' || input[0] > '7'){
         cout << "Wrong input, try again!";
         getch();
@@ -62,6 +64,7 @@ void viewCourseInforStudent(Course* &curCourse, Account* &curAccount){
     getch();
 }
 void viewCourseListStudentToEnroll(Course* &headCourse, Account* &curAccount){
+	TextColor(11);
     system("CLS");
     if (!headCourse){
         cout << "No course available!";
@@ -92,6 +95,7 @@ void viewCourseListStudentToEnroll(Course* &headCourse, Account* &curAccount){
     while (--cnt) curCourse = curCourse->next;
     viewCourseInforStudent(curCourse, curAccount);
     viewCourseListStudentToEnroll(headCourse, curAccount);
+    TextColor(15);
 }
 void enrollCourse(Account* &curAccount, schoolYear* &headSchoolYear){
     schoolYear *curSY = headSchoolYear;

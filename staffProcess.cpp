@@ -1,6 +1,7 @@
 #include "functionPrototype.h"
 
 void creatSchoolYear(schoolYear* &headSchoolYear){
+	TextColor(15);
     system("CLS");
     cout << "CREATE NEW SCHOOL YEAR\n";
     cout << "----------------------\n";
@@ -12,6 +13,7 @@ void creatSchoolYear(schoolYear* &headSchoolYear){
     pushBackSchoolYear(headSchoolYear, input);
 }
 void createClass(Class* &headClass){
+	TextColor(15);
     system("CLS");
     cout << "CREATE NEW CLASS\n";
     cout << "----------------\n";
@@ -21,6 +23,7 @@ void createClass(Class* &headClass){
     pushBackClass(headClass, className);
 }
 void viewStudentInCourse(Course* curCourse){
+	TextColor(11);
     system("CLS");
     cout << curCourse->data.course_name << " STUDENTS LIST\n";
     cout << "------------------------\n";
@@ -36,8 +39,10 @@ void viewStudentInCourse(Course* curCourse){
         headStudent = headStudent->next;
     }
     getch();
+    TextColor(15);
 }
 void viewStudentInClass(Class* curClass){
+	TextColor(11);
     system("CLS");
     cout << curClass->data.className << " STUDENTS LIST\n";
     cout << "------------------------\n";
@@ -54,8 +59,10 @@ void viewStudentInClass(Class* curClass){
         headStudent = headStudent->next;
     }
     getch();
+    TextColor(15);
 }
 void viewClass(Class* headClass){
+	TextColor(11);
     system("CLS");
     if (!headClass){
         cout << "No class available!";
@@ -86,6 +93,7 @@ void viewClass(Class* headClass){
     while (--cnt) curClass = curClass->next;
     viewStudentInClass(curClass);
     viewClass(headClass);
+    TextColor(15);
 }
 void add1stStudents(Account* headAccount, Class* &headClass){
     fstream fs;
@@ -103,6 +111,7 @@ void add1stStudents(Account* headAccount, Class* &headClass){
         data.username = data.studentID;
         data.password = "a";
         data.accountType = "2";
+        data.title = "NULL";
         pushBackAccount(headAccount, data);
     }
     fs.close();
@@ -112,6 +121,7 @@ void add1stStudents(Account* headAccount, Class* &headClass){
     getch();
 }
 void create_Course(Course* &headCourse){
+	TextColor(15);
     if (headCourse){
         system("CLS");
         cout << "1. Create new courses\n";
@@ -149,6 +159,7 @@ void create_Course(Course* &headCourse){
     create_Course(headCourse);
 }
 void create_Semester(Semester* &headSemester){
+	TextColor(15);
     system("CLS");
     cout << "CREATE NEW SEMESTER\n";
     cout << "-------------------\n";
@@ -223,7 +234,8 @@ void changeCourseInfor(dataCourse &dataC, int x){
     }
 }
 void viewCourseInfor(Course* &curCourse, Course* &headCourse, Account* &curAccount, Account* &headAccount, schoolYear* &headSchoolYear, bool studentMode){
-    system("CLS");
+    TextColor(11);
+	system("CLS");
     cout << "COURSES INFORMATION\n";
     cout << "-------------------\n";
 
@@ -246,6 +258,7 @@ void viewCourseInfor(Course* &curCourse, Course* &headCourse, Account* &curAccou
     if (curAccount->data.accountType == "1") cout << "(Select the information you want to change by enter number)\n";
     string input;
     cin >> input;
+    TextColor(15);
     if (input[0] != 'x' && (input[0] < '0' || input[0] > '9')){
         cout << "Wrong input, try again!";
         getch();
@@ -309,7 +322,8 @@ void viewCourseInfor(Course* &curCourse, Course* &headCourse, Account* &curAccou
     }
 }
 bool viewCourseList(Course* &headCourse, Account* &curAccount, Account* &headAccount, schoolYear* &headSchoolYear, bool studentMode){
-    system("CLS");
+    TextColor(11);
+	system("CLS");
     if (!headCourse){
         cout << "No course available!";
         getch();
@@ -337,10 +351,12 @@ bool viewCourseList(Course* &headCourse, Account* &curAccount, Account* &headAcc
     curCourse = headCourse;
     cnt = convertToInt(input);
     while (--cnt) curCourse = curCourse->next;
+    TextColor(15);
     viewCourseInfor(curCourse, headCourse, curAccount, headAccount, headSchoolYear, studentMode);
     return viewCourseList(headCourse, curAccount, headAccount, headSchoolYear, studentMode);
 }
 schoolYear* chooseSchoolYear(schoolYear *headSchoolYear){
+	TextColor(11);
     system("CLS");
     if (!headSchoolYear){
         cout << "No school year available!";
@@ -368,8 +384,10 @@ schoolYear* chooseSchoolYear(schoolYear *headSchoolYear){
     curSchoolYear = headSchoolYear;
     while (--i) curSchoolYear = curSchoolYear->next;
     return curSchoolYear;
+    TextColor(15);
 }
 Semester* chooseSemester(Semester *headSemester){
+	TextColor(11);
     system("CLS");
     if (!headSemester){
         cout << "No semester available!";
@@ -398,8 +416,10 @@ Semester* chooseSemester(Semester *headSemester){
     curSemester = headSemester;
     while (--i) curSemester = curSemester->next;
     return curSemester;
+    TextColor(15);
 }
 void viewScoreBoardInCourse_A(Course* &curCourse){
+	TextColor(15);
     Account* headAccount = curCourse->data.hAccount;
     system("CLS");
     if (!headAccount){
@@ -434,6 +454,7 @@ void viewScoreBoardInCourse_A(Course* &curCourse){
 //    while (--cnt) curAccount = curAccount->next;
 }
 void viewScoreBoardInCourse_C(Course* &headCourse){
+	TextColor(11);
     system("CLS");
     if (!headCourse){
         cout << "No course available!";
@@ -463,10 +484,12 @@ void viewScoreBoardInCourse_C(Course* &headCourse){
     curCourse = headCourse;
     cnt = convertToInt(input);
     while (--cnt) curCourse = curCourse->next;
+    TextColor(15);
     viewScoreBoardInCourse_A(curCourse);
     viewScoreBoardInCourse_C(headCourse);
 }
 void viewScoreBoardInCourse_S(Semester* &headSemester){
+	TextColor(11);
     system("CLS");
     if (!headSemester){
         cout << "No semester available!";
@@ -497,8 +520,10 @@ void viewScoreBoardInCourse_S(Semester* &headSemester){
     while (--i) curSemester = curSemester->next;
     viewScoreBoardInCourse_C(curSemester->data.headCourse);
     viewScoreBoardInCourse_S(headSemester);
+    TextColor(15);
 }
 void viewScoreBoardInCourse_SY(schoolYear* &headSchoolYear){
+	TextColor(11);
     system("CLS");
     if (!headSchoolYear){
         cout << "No school year available!";
@@ -528,6 +553,7 @@ void viewScoreBoardInCourse_SY(schoolYear* &headSchoolYear){
     while (--i) curSchoolYear = curSchoolYear->next;
     viewScoreBoardInCourse_S(curSchoolYear->data.headSemester);
     viewScoreBoardInCourse_SY(headSchoolYear);
+    TextColor(15);
 }
 double calculateFinalMark(Account* curAccount){
     double res = 0;
@@ -567,6 +593,7 @@ double calculateOverallGPA(Account* curAccount, schoolYear* curSchoolYear){
     return resOverall / double(cntS);
 }
 void viewScoreBoardInClass_Student(Class* &curClass, schoolYear* curSchoolYear){
+	TextColor(15);
     system("CLS");
     cout << curClass->data.className << " STUDENTS LIST\n";
     cout << "------------------------\n";
@@ -603,6 +630,7 @@ void viewScoreBoardInClass_Student(Class* &curClass, schoolYear* curSchoolYear){
     getch();
 }
 void viewScoreBoardInClass_Class(Class* &headClass, schoolYear* curSchoolYear){
+	TextColor(11);
     system("CLS");
     if (!headClass){
         cout << "No class available!";
@@ -633,6 +661,7 @@ void viewScoreBoardInClass_Class(Class* &headClass, schoolYear* curSchoolYear){
     while (--cnt) curClass = curClass->next;
     viewScoreBoardInClass_Student(curClass, curSchoolYear);
     viewScoreBoardInClass_Class(headClass, curSchoolYear);
+    TextColor(15);
 }
 void createNewSY(schoolYear* &headSchoolYear){
     schoolYear* curSchoolYear = chooseSchoolYear(headSchoolYear);
@@ -655,6 +684,7 @@ void viewCourseList_Staff(schoolYear* &headSchoolYear, Account* &headAccount, Ac
             }
         }
     }
+    TextColor(15);
 }
 void staffProcess(Account* &curAccount, Account* &headAccount, Class* &headClass, schoolYear* &headSchoolYear){
     system("CLS");
