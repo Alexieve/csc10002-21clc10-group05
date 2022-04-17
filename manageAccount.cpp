@@ -1,11 +1,11 @@
 #include "functionPrototype.h"
 
 void dataAccount::showProfile(){
+	TextColor(11);
     system("CLS");
     cout << "ACCOUNT PROFILE\n";
     cout << "---------------\n";
-    cout << "User ID: " << userID << endl;
-    if (accountType == "2") cout << "Student ID: " << studentID << endl;
+    cout << "User ID: " << studentID << endl;
     cout << "Social ID: " << socialId << endl;
     cout << "Name: " << lastName << " " << firstName << endl;
     cout << "Gender: " << gender << endl;
@@ -14,6 +14,7 @@ void dataAccount::showProfile(){
     getch();
 }
 void dataAccount::changePassword(){
+	TextColor(11);
     string confirmPassword = "";
     system("CLS");
     cout << "CHANGE PASSWORD\n";
@@ -25,7 +26,6 @@ void dataAccount::changePassword(){
     cout << "Enter new password: ";
     cin >> password;
     cout << "Complete!";
-    getch();
 }
 void manageAccount(dataAccount &account){
     system("CLS");

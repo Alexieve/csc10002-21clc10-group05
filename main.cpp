@@ -1,5 +1,6 @@
 #include "functionPrototype.h"
 void logo(){
+	TextColor(14);
 	cout << "      _ _ _    _ _ _ _     _ _ _   _ _ _ _ _   _ _ _ _    " << endl;
 	cout << "    /	   /  /       /  /      /      /      /      /  / " << endl;
 	cout << "   /_ _ _ /  /	     /  / _ _ _/      /      /_ _ _ /  /  " << endl;
@@ -7,9 +8,11 @@ void logo(){
 	cout << " /         /       /  /    \\        /      /      /  /    " << endl;
 	cout << "/         /_ _ _ _/  /      \\      /      /      /  /_ _ _ _" << endl;
 	cout << endl;
+	TextColor(15);
 }
 bool start(Account* &headAccount, Class* &headClass, schoolYear*& headSchoolYear){
     Account* curAccount;
+    TextColor(15);
     while (!login(headAccount, curAccount)); // login into program and get account data
     while (true){
         system("CLS");
