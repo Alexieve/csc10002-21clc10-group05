@@ -1,12 +1,12 @@
 #include "functionPrototype.h"
 void logo(){
 	TextColor(14);
-	cout << "      _ _ _    _ _ _ _     _ _ _   _ _ _ _ _   _ _ _ _    " << endl;
-	cout << "    /	   /  /       /  /      /      /      /      /  / " << endl;
-	cout << "   /_ _ _ /  /	     /  / _ _ _/      /      /_ _ _ /  /  " << endl;
-	cout << "  /         /       /  /  \\	     /      /      /  /   " << endl;
-	cout << " /         /       /  /    \\        /      /      /  /    " << endl;
-	cout << "/         /_ _ _ _/  /      \\      /      /      /  /_ _ _ _" << endl;
+	cout << "\t\t\t      _ _ _    _ _ _ _     _ _ _   _ _ _ _ _   _ _ _ _    " << endl;
+	cout << "\t\t\t    /	   /  /       /  /      /      /      /      /  / " << endl;
+	cout << "\t\t\t   /_ _ _ /  /	     /  / _ _ _/      /      /_ _ _ /  /  " << endl;
+	cout << "\t\t\t  /         /       /  /  \\	     /      /      /  /   " << endl;
+	cout << "\t\t\t /         /       /  /    \\        /      /      /  /    " << endl;
+	cout << "\t\t\t/         /_ _ _ _/  /      \\      /      /      /  /_ _ _ _" << endl;
 	cout << endl;
 	TextColor(15);
 }
