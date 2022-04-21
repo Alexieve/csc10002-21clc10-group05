@@ -11,12 +11,12 @@ bool login(Account* head, Account* &curAccount){
     system("CLS");
     logo();
     string username0, password0;
-    cout << "Login!\n";
+    cout << "\t   LOGIN \n";
+    cout << "---------------------------\n";
     cout << "Username: ";
     cin >> username0;
     cout << "Password: ";
     cin >> password0;
-
     Account* cur = head;
     while (cur && !checkLogin(cur, username0, password0))
         cur = cur->next;
@@ -26,7 +26,7 @@ bool login(Account* head, Account* &curAccount){
         return false;
     }
     curAccount = cur; // get login account data
-    cout << "Complete!";
+    cout << "Login Complete!";
     getch();
     return true;
 }

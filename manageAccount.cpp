@@ -3,8 +3,8 @@
 void dataAccount::showProfile(){
 	TextColor(11);
     system("CLS");
-    cout << "ACCOUNT PROFILE\n";
-    cout << "---------------\n";
+    cout << "     ACCOUNT PROFILE\n";
+    cout << "--------------------------\n";
     cout << "User ID: " << studentID << endl;
     cout << "Social ID: " << socialId << endl;
     cout << "Name: " << lastName << " " << firstName << endl;
@@ -17,8 +17,8 @@ void dataAccount::changePassword(){
 	TextColor(11);
     string confirmPassword = "";
     system("CLS");
-    cout << "CHANGE PASSWORD\n";
-    cout << "---------------\n";
+    cout << "\tCHANGE PASSWORD\n";
+    cout << "-------------------------------\n";
     while (password != confirmPassword){
         cout << "Enter old password: ";
         cin >> confirmPassword;
