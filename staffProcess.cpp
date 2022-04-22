@@ -3,8 +3,8 @@
 void creatSchoolYear(schoolYear* &headSchoolYear){
 	TextColor(15);
     system("CLS");
-    cout << "CREATE NEW SCHOOL YEAR\n";
-    cout << "----------------------\n";
+    cout << "\t\tCREATE NEW SCHOOL YEAR\n";
+    cout << "-------------------------------------------------------\n";
     dataSchoolYear input;
     cout << "Enter the start year of the new school year: ";
     cin >> input.startYear;
@@ -15,8 +15,8 @@ void creatSchoolYear(schoolYear* &headSchoolYear){
 void createClass(Class* &headClass){
 	TextColor(15);
     system("CLS");
-    cout << "CREATE NEW CLASS\n";
-    cout << "----------------\n";
+    cout << "\t\t    CREATE NEW CLASS\n";
+    cout << "--------------------------------------------------------\n";
     cout << "Enter the class's name: ";
     string className;
     cin >> className;
@@ -25,8 +25,8 @@ void createClass(Class* &headClass){
 void viewStudentInCourse(Course* curCourse){
 	TextColor(11);
     system("CLS");
-    cout << curCourse->data.course_name << " STUDENTS LIST\n";
-    cout << "------------------------\n";
+    cout << "     " << curCourse->data.course_name << " STUDENTS LIST\n";
+    cout << "-----------------------------\n";
     Account* headStudent = curCourse->data.hAccount;
     if (!headStudent){
         cout << "No student in this courses!";
@@ -44,8 +44,8 @@ void viewStudentInCourse(Course* curCourse){
 void viewStudentInClass(Class* curClass){
 	TextColor(11);
     system("CLS");
-    cout << curClass->data.className << " STUDENTS LIST\n";
-    cout << "------------------------\n";
+    cout << "     " << curClass->data.className << " STUDENTS LIST\n";
+    cout << "-------------------------------\n";
     Account* headStudent = curClass->data.student;
     if (!headStudent){
         cout << "No student in this class!";
@@ -132,8 +132,8 @@ void create_Course(Course* &headCourse){
     }
 
     system("CLS");
-    cout << "CREATE NEW COURSE\n";
-    cout << "-----------------\n";
+    cout << "\t\t\tCREATE NEW COURSE\n";
+    cout << "-----------------------------------------------------------------\n";
     dataCourse dataC;
     cout << "Enter course id : ";
     cin >> dataC.id;
@@ -161,8 +161,8 @@ void create_Course(Course* &headCourse){
 void create_Semester(Semester* &headSemester){
 	TextColor(15);
     system("CLS");
-    cout << "CREATE NEW SEMESTER\n";
-    cout << "-------------------\n";
+    cout << "\t\t  CREATE NEW SEMESTER\n";
+    cout << "--------------------------------------------------------\n";
     dataSemester dataS;
     dataS.headCourse = NULL;
     cout << "Enter the semester you want to create (1, 2, 3) : ";
@@ -236,8 +236,8 @@ void changeCourseInfor(dataCourse &dataC, int x){
 void viewCourseInfor(Course* &curCourse, Course* &headCourse, Account* &curAccount, Account* &headAccount, schoolYear* &headSchoolYear, bool studentMode){
     TextColor(11);
 	system("CLS");
-    cout << "COURSES INFORMATION\n";
-    cout << "-------------------\n";
+    cout << "\t\t     COURSES INFORMATION\n";
+    cout << "------------------------------------------------------------\n";
 
     dataCourse dataC = curCourse->data;
     cout << "1. ID: " << dataC.id << endl;
@@ -329,8 +329,8 @@ bool viewCourseList(Course* &headCourse, Account* &curAccount, Account* &headAcc
         getch();
         return true;
     }
-    cout << "COURSES LIST\n";
-    cout << "------------\n";
+    cout << "\t\tCOURSES LIST\n";
+    cout << "--------------------------------------------\n";
     Course *curCourse = headCourse;
     int cnt = 0;
     while (curCourse){
@@ -427,8 +427,8 @@ void viewScoreBoardInCourse_A(Course* &curCourse){
         getch();
         return;
     }
-    cout << "STUDENTS SCORE BOARD LIST\n";
-    cout << "-------------------------\n";
+    cout << "\t\t\t\tSTUDENTS SCORE BOARD LIST\n";
+    cout << "-----------------------------------------------------------------------------------------\n";
     Account *curAccount = headAccount;
     int cnt = 0;
     cout << "| No | Student ID |   Full Name   | Total Mark | Final Mark | Midterm Mark | Other Mark |\n";
@@ -461,8 +461,8 @@ void viewScoreBoardInCourse_C(Course* &headCourse){
         getch();
         return;
     }
-    cout << "COURSES LIST\n";
-    cout << "------------\n";
+    cout << "\t\tCOURSES LIST\n";
+    cout << "-----------------------------------------------\n";
     Course *curCourse = headCourse;
     int cnt = 0;
     while (curCourse){
@@ -595,8 +595,8 @@ double calculateOverallGPA(Account* curAccount, schoolYear* curSchoolYear){
 void viewScoreBoardInClass_Student(Class* &curClass, schoolYear* curSchoolYear){
 	TextColor(15);
     system("CLS");
-    cout << curClass->data.className << " STUDENTS LIST\n";
-    cout << "------------------------\n";
+    cout << "\t\t\t" << curClass->data.className << " STUDENTS LIST\n";
+    cout << "--------------------------------------------------------------------\n";
     Account* headStudent = curClass->data.student;
     if (!headStudent){
         cout << "No student in this class!";

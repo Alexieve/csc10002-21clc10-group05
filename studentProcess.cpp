@@ -23,8 +23,8 @@ void deleteStudentInCourse(Account* &hAccount, Account* &curAccount){
 void viewCourseInforStudent(Course* &curCourse, Account* &curAccount){
 	TextColor(11);
     system("CLS");
-    cout << "COURSES INFORMATION\n";
-    cout << "-------------------\n";
+    cout << "\t\t     COURSES INFORMATION\n";
+    cout << "------------------------------------------------------------\n";
 
     dataCourse dataC = curCourse->data;
     cout << "1. ID: " << dataC.id << endl;
@@ -71,8 +71,8 @@ void viewCourseListStudentToEnroll(Course* &headCourse, Account* &curAccount){
         getch();
         return;
     }
-    cout << "COURSES LIST\n";
-    cout << "------------\n";
+    cout << "\t\tCOURSES LIST\n";
+    cout << "--------------------------------------------\n";
     Course *curCourse = headCourse;
     int cnt = 0;
     while (curCourse){
@@ -124,8 +124,8 @@ void viewScoreBoardStudent(Account* curAccount, schoolYear* curSchoolYear){
         getch();
         return;
     }
-    cout << "SCORE BOARD\n";
-    cout << "-----------\n";
+    cout << "\t\t\t\t\t\tSCORE BOARD\n";
+    cout << "---------------------------------------------------------------------------------------------------------------\n";
     double finalMark = calculateFinalMark(curAccount);
     double GPA = finalMark / 2.5;
     cout << "Final Mark: " << finalMark << endl;
