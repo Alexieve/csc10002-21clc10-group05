@@ -141,4 +141,5 @@ void viewCourseList_Staff(schoolYear* &headSchoolYear, Account* &headAccount, Ac
 void viewCourseList_Student(schoolYear* &headSchoolYear, Account* &headAccount, Account* &curAccount);
 void logo();
 void TextColor(int x);
+
 #endif  _FUNCTIONPROTOTYPE_H_
