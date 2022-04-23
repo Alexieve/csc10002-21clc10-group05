@@ -5,7 +5,9 @@ void dataAccount::showProfile(){
     system("CLS");
     cout << "     ACCOUNT PROFILE\n";
     cout << "--------------------------\n";
-    cout << "User ID: " << studentID << endl;
+    TextColor(15);
+    cout << "User ID: " << userID << endl;
+    if (accountType == "2") cout << "Student ID: " << studentID << endl;
     cout << "Social ID: " << socialId << endl;
     cout << "Name: " << lastName << " " << firstName << endl;
     cout << "Gender: " << gender << endl;
@@ -19,6 +21,7 @@ void dataAccount::changePassword(){
     system("CLS");
     cout << "\tCHANGE PASSWORD\n";
     cout << "-------------------------------\n";
+    TextColor(15);
     while (password != confirmPassword){
         cout << "Enter old password: ";
         cin >> confirmPassword;
@@ -41,9 +44,9 @@ void manageAccount(dataAccount &account){
     else{
         cout << "Wrong input, try again!";
         getch();
-        manageAccount(account);
-        return;
     }
+    manageAccount(account);
+    return;
 }
 void updateAccountData(Account* headAccount){
     fstream fs;

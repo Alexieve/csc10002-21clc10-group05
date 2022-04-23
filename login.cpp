@@ -7,12 +7,13 @@ bool checkLogin(Account* curAccount, string username0, string password0){
     return false;
 }
 bool login(Account* head, Account* &curAccount){
-	TextColor(15);
     system("CLS");
     logo();
     string username0, password0;
+    TextColor(11);
     cout << "\t   LOGIN \n";
     cout << "---------------------------\n";
+    TextColor(15);
     cout << "Username: ";
     cin >> username0;
     cout << "Password: ";

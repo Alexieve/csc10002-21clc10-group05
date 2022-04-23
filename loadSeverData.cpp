@@ -241,27 +241,24 @@ void updateSeverData(schoolYear* headSchoolYear){
     }
     fs.close();
 }
-void exportStudentsList(schoolYear* &headSchoolYear, dataCourse dataC){
+void exportStudentsList(schoolYear* &curSchoolYear, dataCourse dataC){
     fstream fs;
     string courseID = dataC.id;
     fs.open(courseID + ".csv", ios::out);
-    schoolYear* curSY = headSchoolYear;
+    schoolYear* curSY = curSchoolYear;
     bool Found = false;
-    while (curSY && !Found){
-        Semester* curS = curSY->data.headSemester;
-        while (curS && !Found){
-            Course* curC = curS->data.headCourse;
-            while (curC && !Found){
-                if (curC->data.id == dataC.id){
-                    Found = true;
-                    fs << curSY->data.startYear << ',' << curSY->data.endYear << '\n';
-                    fs << curS->data.num << ',' << dataC.id << '\n';
-                }
-                curC = curC->next;
+    Semester* curS = curSY->data.headSemester;
+    while (curS && !Found){
+        Course* curC = curS->data.headCourse;
+        while (curC && !Found){
+            if (curC->data.id == dataC.id){
+                Found = true;
+                fs << curSY->data.startYear << ',' << curSY->data.endYear << '\n';
+                fs << curS->data.num << ',' << dataC.id << '\n';
             }
-            curS = curS->next;
+            curC = curC->next;
         }
-        curSY = curSY->next;
+        curS = curS->next;
     }
     int cnt = 0;
     Account* curStudent = dataC.hAccount;

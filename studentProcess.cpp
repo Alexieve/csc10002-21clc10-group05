@@ -25,7 +25,7 @@ void viewCourseInforStudent(Course* &curCourse, Account* &curAccount){
     system("CLS");
     cout << "\t\t     COURSES INFORMATION\n";
     cout << "------------------------------------------------------------\n";
-
+    TextColor(15);
     dataCourse dataC = curCourse->data;
     cout << "1. ID: " << dataC.id << endl;
     cout << "2. Name: " << dataC.course_name << endl;
@@ -40,8 +40,7 @@ void viewCourseInforStudent(Course* &curCourse, Account* &curAccount){
     cout << "---> ENROLL THIS COURSE!!! (Press x)\n";
     string input;
     cin >> input;
-    TextColor(15);
-    if (input[0] < '0' || input[0] > '7'){
+    if (input[0] != 'x' && (input[0] < '0' || input[0] > '7')){
         cout << "Wrong input, try again!";
         getch();
         viewCourseInforStudent(curCourse, curAccount);
@@ -73,6 +72,7 @@ void viewCourseListStudentToEnroll(Course* &headCourse, Account* &curAccount){
     }
     cout << "\t\tCOURSES LIST\n";
     cout << "--------------------------------------------\n";
+    TextColor(15);
     Course *curCourse = headCourse;
     int cnt = 0;
     while (curCourse){
@@ -95,7 +95,6 @@ void viewCourseListStudentToEnroll(Course* &headCourse, Account* &curAccount){
     while (--cnt) curCourse = curCourse->next;
     viewCourseInforStudent(curCourse, curAccount);
     viewCourseListStudentToEnroll(headCourse, curAccount);
-    TextColor(15);
 }
 void enrollCourse(Account* &curAccount, schoolYear* &headSchoolYear){
     schoolYear *curSY = headSchoolYear;
@@ -103,6 +102,7 @@ void enrollCourse(Account* &curAccount, schoolYear* &headSchoolYear){
     bool check = false;
     while (curSY && !check){
         curS = curSY->data.headSemester;
+        int cnt = 0;
         while (curS && !check){
             if (checkEnrollTime(curS)) check = true;
             else curS = curS->next;
@@ -126,6 +126,7 @@ void viewScoreBoardStudent(Account* curAccount, schoolYear* curSchoolYear){
     }
     cout << "\t\t\t\t\t\tSCORE BOARD\n";
     cout << "---------------------------------------------------------------------------------------------------------------\n";
+    TextColor(15);
     double finalMark = calculateFinalMark(curAccount);
     double GPA = finalMark / 2.5;
     cout << "Final Mark: " << finalMark << endl;
@@ -148,7 +149,7 @@ void viewCourseList_Student(schoolYear* &headSchoolYear, Account* &headAccount, 
     schoolYear* curSchoolYear = chooseSchoolYear(headSchoolYear);
     Semester* curSemester = NULL;
     if (curSchoolYear) curSemester = chooseSemester(headSchoolYear->data.headSemester);
-    if (curSemester) viewCourseList(curSemester->data.headCourse, curAccount, headAccount, headSchoolYear, true);
+    if (curSemester) viewCourseList(curSemester->data.headCourse, curAccount, headAccount, curSchoolYear, headSchoolYear, true);
 }
 void studentProcess(Account* &curAccount, Account* &headAccount, Class* &headClass, schoolYear* &headSchoolYear){
     system("CLS");
@@ -162,7 +163,7 @@ void studentProcess(Account* &curAccount, Account* &headAccount, Class* &headCla
     string input = "";
     cin >> input;
     if (input == "1") enrollCourse(curAccount, headSchoolYear);
-    else if (input == "2") viewCourseList(curAccount->data.hCourse, curAccount, headAccount, headSchoolYear, false);
+    else if (input == "2") viewCourseList(curAccount->data.hCourse, curAccount, headAccount, headSchoolYear, headSchoolYear, false);
     else if (input == "3") viewClass(headClass);
     else if (input == "4") viewCourseList_Student(headSchoolYear, headAccount, curAccount);
     else if (input == "5") viewScoreBoardStudent(curAccount, headSchoolYear);
