@@ -300,7 +300,7 @@ void viewCourseInfor(Course* &curCourse, Course* &headCourse, Account* &curAccou
     else if (input == "x" && !studentMode){
         string cName = curCourse -> data.course_name;
         deleteCourse(curCourse, headCourse);
-        Semester *curSemester = headSchoolYear -> data.headSemester;
+        Semester *curSemester = curSchoolYear -> data.headSemester;
         bool FOUND = false;
         while (curSemester && !FOUND) {
             Course *crCourse = curSemester -> data.headCourse;
@@ -315,6 +315,8 @@ void viewCourseInfor(Course* &curCourse, Course* &headCourse, Account* &curAccou
                     deleteStudentInCourse(crCourse->data.hAccount, delAccount);
                     crCourse->data.nStudent--;
                     curAccount->data.nCourse--;
+                    curCourse->data.nStudent = max(0, curCourse->data.nStudent);
+                    curAccount->data.nCourse = max(0, curAccount->data.nCourse);
                 }
                 crCourse = crCourse -> next;
             }

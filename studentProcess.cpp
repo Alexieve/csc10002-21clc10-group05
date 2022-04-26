@@ -156,17 +156,31 @@ void studentProcess(Account* &curAccount, Account* &headAccount, Class* &headCla
     logo();
     cout << "1. Enroll in a course\n";
     cout << "2. View list of enrolled courses\n";
-    cout << "3. View list of classes\n";
-    cout << "4. View list of courses\n";
-    cout << "5. View score board\n";
+//    cout << "3. View list of classes\n";
+//    cout << "4. View list of courses\n";
+    cout << "3. View score board\n";
     cout << "0. Back!\n";
     string input = "";
     cin >> input;
     if (input == "1") enrollCourse(curAccount, headSchoolYear);
-    else if (input == "2") viewCourseList(curAccount->data.hCourse, curAccount, headAccount, headSchoolYear, headSchoolYear, false);
-    else if (input == "3") viewClass(headClass);
-    else if (input == "4") viewCourseList_Student(headSchoolYear, headAccount, curAccount);
-    else if (input == "5") viewScoreBoardStudent(curAccount, headSchoolYear);
+    else if (input == "2"){
+        schoolYear *curSY = headSchoolYear;
+    Semester *curS = NULL;
+    bool check = false;
+    while (curSY && !check){
+        curS = curSY->data.headSemester;
+        int cnt = 0;
+        while (curS && !check){
+            if (checkEnrollTime(curS)) check = true;
+            else curS = curS->next;
+        }
+        if (!check) curSY = curSY->next;
+        }
+        viewCourseList(curAccount->data.hCourse, curAccount, headAccount, curSY, headSchoolYear, false);
+    }
+//    else if (input == "3") viewClass(headClass);
+//    else if (input == "4") viewCourseList_Student(headSchoolYear, headAccount, curAccount);
+    else if (input == "3") viewScoreBoardStudent(curAccount, headSchoolYear);
     else if (input == "0") return;
     else{
         cout << "Wrong input, try again!";
